@@ -1,0 +1,119 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  tone?: 'note' | 'warning' | 'tip' | 'law';
+  title?: string;
+}
+
+const { tone = 'note', title } = Astro.props;
+
+const config = {
+  note: { icon: 'info', label: 'Note' },
+  warning: { icon: 'warning', label: 'Careful' },
+  tip: { icon: 'bulb', label: 'Try this' },
+  law: { icon: 'scale', label: 'The law' },
+} as const;
+
+const { icon, label } = config[tone];
+---
+
+<aside class:list={['callout', `callout--${tone}`]}>
+  <div class="callout__head">
+    <span class="callout__icon"><Icon name={icon} size={18} /></span>
+    <span class="callout__label">{label}</span>
+    {title && <span class="callout__rule" aria-hidden="true"></span>}
+  </div>
+  {title && <p class="callout__title">{title}</p>}
+  <div class="callout__body"><slot /></div>
+</aside>
+
+<style>
+  .callout {
+    --tone: var(--blue);
+    --wash: rgba(31, 60, 255, 0.06);
+    margin-block: 2em;
+    padding: 1.15rem 1.3rem 1.25rem;
+    background: var(--wash);
+    border: 1px solid var(--line-strong);
+    border-left: 4px solid var(--tone);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.96em;
+    line-height: 1.62;
+  }
+
+  .callout--warning {
+    --tone: var(--red);
+    --wash: rgba(229, 72, 47, 0.065);
+  }
+
+  .callout--tip {
+    --tone: var(--green);
+    --wash: rgba(31, 107, 74, 0.07);
+  }
+
+  .callout--law {
+    --tone: var(--ink);
+    --wash: var(--paper-deep);
+  }
+
+  .callout__head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .callout__icon {
+    display: grid;
+    place-items: center;
+    width: 1.55rem;
+    height: 1.55rem;
+    border-radius: 50%;
+    background: var(--tone);
+    color: var(--paper-bright);
+    flex: none;
+  }
+
+  .callout__label {
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tone);
+  }
+
+  .callout__rule {
+    flex: 1;
+    height: 1px;
+    background: color-mix(in srgb, var(--tone) 30%, transparent);
+  }
+
+  .callout__title {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  .callout__body > :global(*:first-child) {
+    margin-top: 0;
+  }
+
+  .callout__body > :global(*:last-child) {
+    margin-bottom: 0;
+  }
+
+  .callout__body :global(a) {
+    color: var(--blue-deep);
+    font-weight: 600;
+  }
+
+  .callout__body :global(p) {
+    max-width: none;
+  }
+</style>

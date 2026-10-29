@@ -1,0 +1,417 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import Icon from '../../components/Icon.astro';
+import { getCollection } from 'astro:content';
+import { topics } from '../../data/topics';
+
+const guides = await getCollection('guides');
+const sorted = [...guides].sort((a, b) => a.data.order - b.data.order);
+const countFor = (id: string) => guides.filter((guide) => guide.data.topic === id).length;
+const updated = new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric' }).format(
+  new Date(Math.max(...guides.map((guide) => guide.data.updated.getTime()))),
+);
+---
+
+<BaseLayout
+  title="All guides"
+  description="Every Law, Simplified. guide — plain-English answers on refunds, rent deposits, late salaries, FIRs, cyber fraud, RTI, legal aid, and police stops."
+>
+  <header class="index-head">
+    <div class="container">
+      <p class="eyebrow">The guides · Edition 01</p>
+      <div class="index-head__grid">
+        <h1>
+          Eight guides.<br />
+          <span class="italic">Zero</span> footnotes you<br />
+          cannot follow.
+        </h1>
+        <div class="index-head__aside">
+          <p>
+            Each guide gives you the short version first, then the steps, the words to use, and the
+            evidence to keep. No 400-page commentary. No “consult a lawyer” and nothing else.
+          </p>
+          <div class="index-head__meta">
+            <span><Icon name="book" size={15} /> {guides.length} guides</span>
+            <span><Icon name="calendar" size={15} /> Updated {updated}</span>
+            <span><Icon name="scale" size={15} /> India</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="index-head__count" aria-hidden="true">{String(guides.length).padStart(2, '0')}</span>
+  </header>
+
+  <section class="index-body">
+    <div class="container">
+      <div class="toolbar">
+        <div class="toolbar__filters" role="group" aria-label="Filter guides by topic">
+          <button type="button" class="filter is-active" data-filter-topic="all" aria-pressed="true">
+            All <span>{String(guides.length).padStart(2, '0')}</span>
+          </button>
+          {
+            topics.map((topic) => (
+              <button
+                type="button"
+                class="filter"
+                data-filter-topic={topic.id}
+                aria-pressed="false"
+                style={`--topic:${topic.color}`}
+              >
+                {topic.name} <span>{String(countFor(topic.id)).padStart(2, '0')}</span>
+              </button>
+            ))
+          }
+        </div>
+
+        <label class="field toolbar__search">
+          <Icon name="search" size={17} />
+          <span class="sr-only">Filter guides by keyword</span>
+          <input
+            type="search"
+            placeholder="Filter by keyword…"
+            autocomplete="off"
+            data-guide-filter
+          />
+        </label>
+      </div>
+
+      <div class="index-status">
+        <p data-guide-count>Showing {guides.length} of {guides.length} guides</p>
+        <p class="index-status__hint">Or press <kbd>⌘K</kbd> to search everything</p>
+      </div>
+
+      <div class="guide-grid" data-guide-grid>
+        {
+          sorted.map((guide, i) => (
+            <div
+              class="guide-cell"
+              data-guide-cell
+              data-topic={guide.data.topic}
+              data-search={`${guide.data.title} ${guide.data.dek} ${guide.data.tags.join(' ')}`.toLowerCase()}
+            >
+              <GuideCard
+                id={guide.id}
+                title={guide.data.title}
+                dek={guide.data.dek}
+                topic={guide.data.topic}
+                readTime={guide.data.readTime}
+                index={String(i + 1).padStart(2, '0')}
+              />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="index-empty" data-guide-empty hidden>
+        <span class="index-empty__mark">§</span>
+        <h2>No guide matches that.</h2>
+        <p>
+          Try a broader word — “deposit”, “salary”, “police” — or search the glossary and templates.
+        </p>
+        <button type="button" class="btn btn--ghost btn--sm" data-search-open>
+          <Icon name="search" size={15} /> Search everything
+        </button>
+      </div>
+
+      <aside class="index-note">
+        <span class="stamp">A note on scope</span>
+        <p>
+          These guides cover common situations under Indian law. They are general information, not
+          legal advice, and they cannot replace a lawyer who has read your agreement and your facts.
+          Where the law varies by state, the guide says so.
+        </p>
+        <a class="arrow-link" href="/about">How we write these <Icon name="arrow" size={15} /></a>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .index-head {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem);
+    border-bottom: 1.5px solid var(--ink);
+    background:
+      radial-gradient(circle at 82% 20%, rgba(229, 72, 47, 0.09), transparent 26%),
+      var(--paper);
+  }
+
+  .index-head h1 {
+    margin-top: 1rem;
+    font-size: clamp(2.7rem, 7vw, 5.8rem);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+  }
+
+  .index-head__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .index-head__aside {
+    max-width: 27rem;
+    padding-top: 0.5rem;
+  }
+
+  .index-head__aside p {
+    color: var(--ink-soft);
+    line-height: 1.62;
+  }
+
+  .index-head__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.2rem;
+    margin-top: 1.2rem;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+
+  .index-head__meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .index-head__count {
+    position: absolute;
+    right: 1%;
+    bottom: -0.2em;
+    font-family: var(--font-display);
+    font-size: clamp(9rem, 22vw, 20rem);
+    font-weight: 780;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: var(--ink);
+    opacity: 0.035;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .index-body {
+    padding-block: clamp(2rem, 4vw, 3rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .toolbar__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.48rem 0.7rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    transition:
+      background 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .filter span {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    opacity: 0.55;
+  }
+
+  .filter:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .filter.is-active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .toolbar__search {
+    max-width: 22rem;
+  }
+
+  .index-status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block: 1rem 1.4rem;
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+
+  .index-status kbd {
+    padding: 0.08rem 0.3rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    background: var(--paper-bright);
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
+  }
+
+  .guide-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .guide-cell[hidden] {
+    display: none;
+  }
+
+  .index-empty {
+    padding: 4rem 1rem;
+    text-align: center;
+    border: 1px dashed var(--line-strong);
+    background: var(--paper-bright);
+  }
+
+  .index-empty__mark {
+    font-family: var(--font-body);
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--red);
+  }
+
+  .index-empty h2 {
+    margin-top: 0.5rem;
+    font-size: 2rem;
+  }
+
+  .index-empty p {
+    max-width: 30rem;
+    margin: 0.7rem auto 1.4rem;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+
+  .index-note {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .index-note .stamp {
+    justify-self: start;
+    color: var(--red);
+    font-size: 0.55rem;
+    padding: 0.3rem 0.45rem;
+  }
+
+  .index-note p {
+    max-width: 52rem;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .index-note .arrow-link {
+    justify-self: start;
+  }
+
+  @media (min-width: 700px) {
+    .index-head__grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: end;
+      gap: 3rem;
+    }
+
+    .toolbar {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .toolbar__search {
+      flex: none;
+      width: 20rem;
+    }
+
+    .guide-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    .index-note {
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .index-head__grid {
+      grid-template-columns: 1.35fr 0.65fr;
+    }
+  }
+</style>
+
+<script>
+  const cells = Array.from(document.querySelectorAll<HTMLElement>('[data-guide-cell]'));
+  const filters = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter-topic]'));
+  const search = document.querySelector<HTMLInputElement>('[data-guide-filter]');
+  const countEl = document.querySelector<HTMLElement>('[data-guide-count]');
+  const emptyEl = document.querySelector<HTMLElement>('[data-guide-empty]');
+  let activeTopic = 'all';
+
+  function apply() {
+    const query = (search?.value ?? '').trim().toLowerCase();
+    let visible = 0;
+
+    cells.forEach((cell) => {
+      const topicMatch = activeTopic === 'all' || cell.dataset.topic === activeTopic;
+      const textMatch = !query || (cell.dataset.search ?? '').includes(query);
+      const show = topicMatch && textMatch;
+      cell.hidden = !show;
+      if (show) visible += 1;
+    });
+
+    if (countEl) {
+      countEl.textContent = `Showing ${visible} of ${cells.length} guides`;
+    }
+    if (emptyEl) {
+      emptyEl.hidden = visible !== 0;
+    }
+  }
+
+  filters.forEach((button) => {
+    button.addEventListener('click', () => {
+      activeTopic = button.dataset.filterTopic ?? 'all';
+      filters.forEach((other) => {
+        const active = other === button;
+        other.classList.toggle('is-active', active);
+        other.setAttribute('aria-pressed', String(active));
+      });
+      apply();
+    });
+  });
+
+  search?.addEventListener('input', apply);
+</script>

@@ -1,0 +1,24 @@
+:root {
+  --paper: #f5efd9;
+  --paper-bright: #fffdf5;
+  --paper-deep: #e8dfc1;
+  --ink: #12110f;
+  --ink-soft: #4d4a42;
+  --blue: #1f3cff;
+  --blue-deep: #1326b8;
+  --red: #e5482f;
+  --green: #1f6b4a;
+  --violet: #7a3fd1;
+  --amber: #b36b00;
+  --line: rgba(18, 17, 15, 0.18);
+  --line-strong: rgba(18, 17, 15, 0.45);
+  --focus: #1f3cff;
+  --shadow-hard: 4px 4px 0 var(--ink);
+  --shadow-soft: 0 24px 60px rgba(18, 17, 15, 0.1);
+  --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', sans-serif;
+  --font-body: 'Source Serif 4 Variable', Georgia, serif;
+  --font-ui: 'Bricolage Grotesque Variable', system-ui, sans-serif;
+  --container: 1240px;
+  --radius: 3px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

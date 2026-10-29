@@ -1,0 +1,250 @@
+---
+import { site } from '../data/site';
+import { topics } from '../data/topics';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__top">
+    <div class="footer__brand">
+      <a href="/" class="footer__wordmark">Law, Simplified<span>.</span></a>
+      <p class="footer__tagline">
+        The law, minus the legalese. A free field guide for the moments when the fine print
+        suddenly matters.
+      </p>
+      <div class="footer__stamp">
+        <span class="stamp">Edition 01</span>
+        <span class="footer__updated">Last reviewed {site.lastReviewed}</span>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h2 class="footer__heading">The guide</h2>
+      <ul role="list">
+        {site.nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+        <li><a href="/disclaimer">Disclaimer</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h2 class="footer__heading">By situation</h2>
+      <ul role="list">
+        {topics.map((topic) => (
+          <li><a href={`/topics/${topic.id}`}>{topic.name}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer__col footer__col--help">
+      <h2 class="footer__heading">If you need help now</h2>
+      <ul role="list" class="footer__help">
+        <li>
+          <span>Free legal aid</span>
+          <a href="tel:15100">15100 <Icon name="arrow-up-right" size={13} /></a>
+        </li>
+        <li>
+          <span>Cyber fraud</span>
+          <a href="tel:1930">1930 <Icon name="arrow-up-right" size={13} /></a>
+        </li>
+        <li>
+          <span>Police / emergency</span>
+          <a href="tel:112">112 <Icon name="arrow-up-right" size={13} /></a>
+        </li>
+        <li>
+          <span>Women’s helpline</span>
+          <a href="tel:181">181 <Icon name="arrow-up-right" size={13} /></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer__disclaimer">
+    <p>{site.disclaimer}</p>
+    <p class="footer__copy">© {year} {site.name} · Built as an independent educational project.</p>
+  </div>
+
+  <div class="footer__mark" aria-hidden="true">Law, Simplified.</div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--paper);
+    padding-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .footer__top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .footer__brand {
+    max-width: 24rem;
+  }
+
+  .footer__wordmark {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 760;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--paper-bright);
+  }
+
+  .footer__wordmark span {
+    color: var(--red);
+  }
+
+  .footer__tagline {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(245, 239, 217, 0.62);
+  }
+
+  .footer__stamp {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.4rem;
+  }
+
+  .footer__stamp .stamp {
+    color: rgba(245, 239, 217, 0.8);
+  }
+
+  .footer__updated {
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(245, 239, 217, 0.42);
+  }
+
+  .footer__heading {
+    margin-bottom: 1rem;
+    font-family: var(--font-ui);
+    font-size: 0.64rem;
+    font-weight: 650;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(245, 239, 217, 0.42);
+  }
+
+  .footer__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .footer__col a {
+    font-family: var(--font-ui);
+    font-size: 0.84rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: rgba(245, 239, 217, 0.82);
+    transition: color 0.15s ease;
+  }
+
+  .footer__col a:hover {
+    color: var(--paper-bright);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .footer__help li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid rgba(245, 239, 217, 0.14);
+  }
+
+  .footer__help span {
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    color: rgba(245, 239, 217, 0.55);
+  }
+
+  .footer__help a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--paper-bright);
+    font-weight: 650;
+  }
+
+  .footer__disclaimer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid rgba(245, 239, 217, 0.18);
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    line-height: 1.6;
+    color: rgba(245, 239, 217, 0.42);
+  }
+
+  .footer__disclaimer p {
+    max-width: 76ch;
+  }
+
+  .footer__copy {
+    white-space: nowrap;
+  }
+
+  .footer__mark {
+    margin-bottom: -0.18em;
+    font-family: var(--font-display);
+    font-size: clamp(3.6rem, 13.4vw, 13rem);
+    font-weight: 780;
+    letter-spacing: -0.06em;
+    line-height: 0.72;
+    text-align: center;
+    color: rgba(245, 239, 217, 0.055);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  @media (min-width: 680px) {
+    .footer__top {
+      grid-template-columns: 1.5fr 1fr 1fr;
+    }
+
+    .footer__col--help {
+      grid-column: span 2;
+    }
+
+    .footer__disclaimer {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .footer__top {
+      grid-template-columns: 1.6fr 0.8fr 0.8fr 1.1fr;
+      gap: 3rem;
+    }
+
+    .footer__col--help {
+      grid-column: auto;
+    }
+  }
+</style>

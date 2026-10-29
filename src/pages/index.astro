@@ -1,0 +1,1037 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import LegalSwitch from '../components/LegalSwitch.astro';
+import TopicRow from '../components/TopicRow.astro';
+import GuideCard from '../components/GuideCard.astro';
+import { getCollection } from 'astro:content';
+import { topics } from '../data/topics';
+import { glossary } from '../data/glossary';
+import { templates } from '../data/templates';
+
+const guides = await getCollection('guides');
+const byOrder = [...guides].sort((a, b) => a.data.order - b.data.order);
+const featured = byOrder.filter((guide) => guide.data.featured).slice(0, 3);
+const secondary = featured.slice(1);
+
+const countFor = (id: string) => guides.filter((guide) => guide.data.topic === id).length;
+
+const quickLinks = [
+  { label: 'Deposit stuck', href: '/guides/security-deposit/' },
+  { label: 'Salary late', href: '/guides/late-salary/' },
+  { label: 'Scam at 11pm', href: '/guides/cyber-fraud/' },
+  { label: 'FIR refused', href: '/guides/fir/' },
+];
+
+const glossaryPicks = ['Security deposit', 'Deficiency in service', 'Zero FIR']
+  .map((term) => glossary.find((entry) => entry.term === term))
+  .filter(Boolean);
+
+const stats = [
+  { value: String(guides.length).padStart(2, '0'), label: 'plain-English guides' },
+  { value: String(glossary.length), label: 'terms decoded' },
+  { value: String(templates.length), label: 'copy-ready templates' },
+  { value: '₹0', label: 'to read, always' },
+];
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__intro">
+        <p class="eyebrow reveal">A field guide to Indian law</p>
+
+        <h1 class="hero__title reveal" style="animation-delay: 0.06s">
+          The law,<br />
+          minus the<br />
+          <span class="hero__accent">legalese.</span>
+        </h1>
+
+        <p class="hero__lede reveal" style="animation-delay: 0.12s">
+          Plain-English guides for the moments that matter: a deposit that never came back, a
+          salary that went quiet, a scam at 11pm, a police desk that says no.
+        </p>
+
+        <div class="hero__actions reveal" style="animation-delay: 0.18s">
+          <a class="btn" href="#topics">
+            Find your problem <Icon name="arrow" size={17} />
+          </a>
+          <a class="btn btn--ghost" href="/guides">Browse the guides</a>
+        </div>
+
+        <div class="hero__quick reveal" style="animation-delay: 0.24s">
+          <span class="hero__quick-label">In a hurry?</span>
+          {
+            quickLinks.map((link) => (
+              <a href={link.href} class="hero__chip">
+                {link.label}
+                <Icon name="arrow-up-right" size={12} />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="hero__card reveal" style="animation-delay: 0.2s">
+        <LegalSwitch />
+      </div>
+    </div>
+
+    <div class="container hero__stats">
+      {
+        stats.map((stat) => (
+          <div class="hero__stat">
+            <span class="hero__stat-value">{stat.value}</span>
+            <span class="hero__stat-label">{stat.label}</span>
+          </div>
+        ))
+      }
+      <p class="hero__stats-note">
+        <span aria-hidden="true">✳</span> Independent. Free. No sign-up.
+      </p>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      {
+        [0, 1].map(() => (
+          <div class="marquee__group">
+            <span>Security deposits</span><b>✳</b>
+            <span>Late salaries</span><b>✳</b>
+            <span>Cyber fraud</span><b>✳</b>
+            <span>FIRs</span><b>✳</b>
+            <span>RTI</span><b>✳</b>
+            <span>Legal aid</span><b>✳</b>
+            <span>Consumer refunds</span><b>✳</b>
+            <span>Police stops</span><b>✳</b>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <section class="section topics" id="topics">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">01 — Find your footing</p>
+          <h2 class="section-head__title">What happened?</h2>
+        </div>
+        <div class="section-head__aside">
+          <p>
+            Pick the situation closest to yours. Every guide starts with the short version, then
+            gives you the steps, the words, and the paper trail.
+          </p>
+          <a class="arrow-link" href="/topics">
+            All topics <Icon name="arrow" size={15} />
+          </a>
+        </div>
+      </div>
+
+      <div class="topic-list">
+        {
+          topics.map((topic, i) => (
+            <TopicRow topic={topic} count={countFor(topic.id)} index={i + 1} />
+          ))
+        }
+      </div>
+
+      <div class="topics__foot">
+        <p>Not sure where it fits? Search the whole guide — guides, glossary, templates.</p>
+        <button type="button" class="btn btn--ghost btn--sm" data-search-open>
+          <Icon name="search" size={15} /> Search everything
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section guides-section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">02 — The guides</p>
+          <h2 class="section-head__title">Start with the ones<br />people need most.</h2>
+        </div>
+        <div class="section-head__aside">
+          <p>
+            Written as if a friend who happens to be a lawyer is sitting across the table — with
+            the citations kept, and the condescension removed.
+          </p>
+          <a class="arrow-link" href="/guides">
+            All {guides.length} guides <Icon name="arrow" size={15} />
+          </a>
+        </div>
+      </div>
+
+      {
+        featured[0] && (
+          <div class="featured-grid">
+            <GuideCard
+              id={featured[0].id}
+              title={featured[0].data.title}
+              dek={featured[0].data.dek}
+              topic={featured[0].data.topic}
+              readTime={featured[0].data.readTime}
+              index="01"
+              featured
+              class="featured-grid__lead"
+            />
+            <div class="featured-grid__side">
+              {secondary.map((guide, i) => (
+                <GuideCard
+                  id={guide.id}
+                  title={guide.data.title}
+                  dek={guide.data.dek}
+                  topic={guide.data.topic}
+                  readTime={guide.data.readTime}
+                  index={String(i + 2).padStart(2, '0')}
+                />
+              ))}
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="toolkit-section">
+    <div class="container toolkit">
+      <div class="toolkit__intro">
+        <p class="eyebrow eyebrow--light">03 — The toolkit</p>
+        <h2>Letters you should not have to write.</h2>
+        <p class="toolkit__lede">
+          Sometimes the system moves only when there is paper. Six templates, written in the
+          register that gets read: specific, polite, dated, and impossible to ignore.
+        </p>
+        <a class="btn btn--paper" href="/toolkit">
+          Open the toolkit <Icon name="arrow" size={17} />
+        </a>
+        <p class="toolkit__note">
+          Copy, adapt, send. No account, no watermark, no “upgrade to download”.
+        </p>
+      </div>
+
+      <div class="toolkit__index">
+        <div class="toolkit__index-head">
+          <span>Template index</span>
+          <span>{String(templates.length).padStart(2, '0')} documents</span>
+        </div>
+        <ol role="list">
+          {
+            templates.map((template, i) => (
+              <li>
+                <a href={`/toolkit#${template.id}`}>
+                  <span class="toolkit__num">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="toolkit__name">{template.title}</span>
+                  <Icon name="arrow" size={16} />
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="toolkit__index-foot">
+          <span class="stamp">Copy-ready</span>
+          <span>Plain text · no login</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section glossary-section">
+    <div class="container">
+      <div class="glossary-grid">
+        <div class="glossary-intro">
+          <p class="eyebrow">04 — The dictionary</p>
+          <h2>Legalese,<br /><span class="italic">translated.</span></h2>
+          <p class="glossary-intro__text">
+            A word you do not recognise is not a word you have to accept. Start with the phrase on
+            the letter, then look it up.
+          </p>
+          <a class="arrow-link" href="/glossary">
+            All {glossary.length} terms <Icon name="arrow" size={15} />
+          </a>
+        </div>
+
+        <div class="glossary-list">
+          <div class="glossary-list__head">
+            <span>Term</span>
+            <span>What it actually means</span>
+          </div>
+          {
+            glossaryPicks.map((entry) => (
+              <a href={`/glossary#term-${entry!.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} class="glossary-item">
+                <span class="glossary-item__term">
+                  {entry!.term}
+                  <span class="glossary-item__cat">{entry!.category}</span>
+                </span>
+                <span class="glossary-item__plain">{entry!.plain}</span>
+                <Icon name="arrow-up-right" size={16} class="glossary-item__arrow" />
+              </a>
+            ))
+          }
+          <div class="glossary-list__foot">
+            <span aria-hidden="true">“</span>
+            Legal language is not magic. It is a habit.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="container closing__inner">
+      <p class="eyebrow eyebrow--light">The whole point</p>
+      <h2 class="closing__title">
+        You do not need to become a lawyer<br class="closing__break" />
+        to use the law.
+      </h2>
+      <p class="closing__lede">
+        You need to know what to ask for, what to keep, and where to go next. That is what this
+        guide is for.
+      </p>
+      <div class="closing__actions">
+        <a class="btn btn--paper" href="/guides">Find your guide <Icon name="arrow" size={17} /></a>
+        <a class="closing__phone" href="tel:15100">
+          <Icon name="phone" size={17} />
+          Free legal aid: 15100
+        </a>
+      </div>
+      <div class="closing__mark" aria-hidden="true">§</div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------------- Hero ---------------- */
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: clamp(2.5rem, 6vw, 5rem);
+    border-bottom: 1.5px solid var(--ink);
+    background:
+      radial-gradient(circle at 78% 18%, rgba(31, 60, 255, 0.07), transparent 28%),
+      radial-gradient(circle at 12% 82%, rgba(229, 72, 47, 0.06), transparent 24%);
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(3rem, 6vw, 4rem);
+    align-items: center;
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .hero__intro {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__title {
+    margin-top: 1.3rem;
+    font-size: clamp(3.2rem, 11.5vw, 7.3rem);
+    line-height: 0.87;
+    letter-spacing: -0.055em;
+    font-weight: 740;
+  }
+
+  .hero__accent {
+    position: relative;
+    display: inline-block;
+    font-family: var(--font-body);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    color: var(--blue-deep);
+  }
+
+  .hero__accent::after {
+    content: '';
+    position: absolute;
+    left: -0.02em;
+    right: -0.04em;
+    bottom: 0.06em;
+    height: 0.055em;
+    background: var(--red);
+    transform: rotate(-1.2deg);
+  }
+
+  .hero__lede {
+    max-width: 33rem;
+    margin-top: 1.6rem;
+    font-size: clamp(1.05rem, 0.98rem + 0.45vw, 1.28rem);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .hero__quick {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .hero__quick-label {
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-right: 0.2rem;
+  }
+
+  .hero__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.34rem 0.55rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 550;
+    text-decoration: none;
+    color: var(--ink-soft);
+    transition:
+      background 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .hero__chip:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .hero__card {
+    position: relative;
+    padding-top: 1rem;
+  }
+
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding-block: 1.4rem;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .hero__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .hero__stat-value {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .hero__stat-label {
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .hero__stats-note {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+
+  .hero__stats-note span {
+    color: var(--red);
+  }
+
+  /* ---------------- Marquee ---------------- */
+
+  .marquee {
+    overflow: hidden;
+    padding-block: 0.7rem;
+    background: var(--ink);
+    color: var(--paper);
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee 46s linear infinite;
+  }
+
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+
+  .marquee__group {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+
+  .marquee__group span {
+    padding-inline: 1.1rem;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .marquee__group b {
+    color: var(--red);
+    font-size: 0.7rem;
+    font-weight: 400;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ---------------- Section heads ---------------- */
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+    margin-bottom: clamp(2.2rem, 4vw, 3.4rem);
+  }
+
+  .section-head__title {
+    margin-top: 0.8rem;
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  }
+
+  .section-head__aside {
+    max-width: 30rem;
+  }
+
+  .section-head__aside p {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+  }
+
+  /* ---------------- Topics ---------------- */
+
+  .topics {
+    background: var(--paper);
+  }
+
+  .topic-list {
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .topics__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+  }
+
+  /* ---------------- Featured guides ---------------- */
+
+  .guides-section {
+    background: var(--paper-deep);
+    border-top: 1.5px solid var(--ink);
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .featured-grid__side {
+    display: grid;
+    gap: 1rem;
+  }
+
+  /* ---------------- Toolkit ---------------- */
+
+  .toolkit-section {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(3.5rem, 8vw, 7rem);
+    background: var(--blue);
+    color: var(--paper-bright);
+  }
+
+  .toolkit-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 253, 245, 0.13) 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .toolkit {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .eyebrow--light {
+    color: rgba(255, 253, 245, 0.66);
+  }
+
+  .eyebrow--light::before {
+    background: var(--paper-bright);
+  }
+
+  .toolkit h2 {
+    max-width: 12ch;
+    margin-top: 1rem;
+    font-size: clamp(2.2rem, 4.8vw, 4rem);
+    line-height: 0.94;
+  }
+
+  .toolkit__lede {
+    max-width: 36rem;
+    margin-top: 1.4rem;
+    font-size: 1.02rem;
+    line-height: 1.62;
+    color: rgba(255, 253, 245, 0.78);
+  }
+
+  .toolkit .btn {
+    margin-top: 1.8rem;
+  }
+
+  .toolkit__note {
+    margin-top: 1rem;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    color: rgba(255, 253, 245, 0.55);
+  }
+
+  .toolkit__index {
+    background: var(--paper-bright);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    box-shadow: 10px 10px 0 var(--ink);
+    transform: rotate(1deg);
+    transition: transform 0.35s var(--ease);
+  }
+
+  .toolkit__index:hover {
+    transform: rotate(0deg);
+  }
+
+  .toolkit__index-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 1.1rem;
+    border-bottom: 1.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .toolkit__index ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toolkit__index li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .toolkit__index li a {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 1.1rem;
+    text-decoration: none;
+    transition:
+      background 0.15s ease,
+      padding 0.2s var(--ease);
+  }
+
+  .toolkit__index li a:hover {
+    background: var(--paper);
+    padding-left: 1.35rem;
+  }
+
+  .toolkit__num {
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--red);
+  }
+
+  .toolkit__name {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .toolkit__index li a svg {
+    color: var(--ink-soft);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.2s var(--ease);
+  }
+
+  .toolkit__index li a:hover svg {
+    opacity: 1;
+    transform: none;
+  }
+
+  .toolkit__index-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .toolkit__index-foot .stamp {
+    color: var(--blue);
+    font-size: 0.55rem;
+    padding: 0.3rem 0.45rem;
+    transform: rotate(-2deg);
+  }
+
+  /* ---------------- Glossary ---------------- */
+
+  .glossary-section {
+    background: var(--paper);
+  }
+
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+  }
+
+  .glossary-intro h2 {
+    margin-top: 0.8rem;
+    font-size: clamp(2.6rem, 5.5vw, 4.6rem);
+    line-height: 0.92;
+  }
+
+  .glossary-intro__text {
+    max-width: 24rem;
+    margin-top: 1.4rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .glossary-intro .arrow-link {
+    margin-top: 1.5rem;
+  }
+
+  .glossary-list {
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .glossary-list__head {
+    display: none;
+    grid-template-columns: 0.85fr 1.5fr;
+    gap: 2rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-ui);
+    font-size: 0.58rem;
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .glossary-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.3rem 1rem;
+    padding: 1.15rem 2rem 1.15rem 0;
+    border-bottom: 1px solid var(--line-strong);
+    text-decoration: none;
+    transition: padding 0.2s var(--ease);
+  }
+
+  .glossary-item:hover {
+    padding-left: 0.5rem;
+  }
+
+  .glossary-item__term {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+
+  .glossary-item__cat {
+    font-family: var(--font-ui);
+    font-size: 0.52rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .glossary-item__plain {
+    grid-column: 1;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .glossary-item__arrow {
+    position: absolute;
+    top: 1.25rem;
+    right: 0.2rem;
+    color: var(--ink-soft);
+    opacity: 0;
+    transform: translate(-3px, 3px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.2s var(--ease);
+  }
+
+  .glossary-item:hover .glossary-item__arrow {
+    opacity: 1;
+    transform: none;
+  }
+
+  .glossary-list__foot {
+    display: flex;
+    gap: 0.6rem;
+    padding-top: 1.5rem;
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: var(--ink-soft);
+  }
+
+  .glossary-list__foot span {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-style: normal;
+    line-height: 0.8;
+    color: var(--red);
+  }
+
+  /* ---------------- Closing ---------------- */
+
+  .closing {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(3.5rem, 8vw, 7rem);
+    background: var(--red);
+    color: var(--paper-bright);
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .closing__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .closing .eyebrow--light {
+    color: rgba(255, 253, 245, 0.72);
+  }
+
+  .closing .eyebrow--light::before {
+    background: var(--paper-bright);
+  }
+
+  .closing__title {
+    max-width: 18ch;
+    margin-top: 1rem;
+    font-size: clamp(2.5rem, 6.4vw, 5.6rem);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+  }
+
+  .closing__lede {
+    max-width: 34rem;
+    margin-top: 1.4rem;
+    font-size: clamp(1rem, 0.96rem + 0.3vw, 1.18rem);
+    line-height: 1.55;
+    color: rgba(255, 253, 245, 0.82);
+  }
+
+  .closing__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.4rem;
+    margin-top: 2rem;
+  }
+
+  .closing__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--paper-bright);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 253, 245, 0.5);
+    padding-bottom: 0.2rem;
+  }
+
+  .closing__phone:hover {
+    border-color: var(--paper-bright);
+  }
+
+  .closing__mark {
+    position: absolute;
+    right: 2%;
+    bottom: -0.34em;
+    font-family: var(--font-body);
+    font-size: clamp(14rem, 30vw, 28rem);
+    line-height: 1;
+    color: rgba(255, 253, 245, 0.09);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ---------------- Responsive ---------------- */
+
+  @media (min-width: 640px) {
+    .hero__stats {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .hero__stats-note {
+      grid-column: 1 / -1;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: end;
+      gap: 3rem;
+    }
+
+    .featured-grid__side {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .glossary-list__head {
+      display: grid;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: clamp(2rem, 5vw, 5rem);
+      padding-block: clamp(2rem, 4vw, 4rem) clamp(3rem, 5vw, 5rem);
+    }
+
+    .hero__title {
+      font-size: clamp(4.2rem, 7.2vw, 7.3rem);
+    }
+
+    .toolkit {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .glossary-grid {
+      grid-template-columns: 0.85fr 1.15fr;
+    }
+
+    .glossary-item {
+      grid-template-columns: 0.85fr 1.5fr auto;
+      align-items: baseline;
+      gap: 2rem;
+      padding-right: 1.6rem;
+    }
+
+    .glossary-item__plain {
+      grid-column: 2;
+    }
+
+    .glossary-item__arrow {
+      position: static;
+      align-self: center;
+    }
+
+    .featured-grid {
+      grid-template-columns: 1.25fr 0.75fr;
+      align-items: stretch;
+    }
+
+    .featured-grid__side {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    }
+
+    .glossary-grid {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 6rem;
+    }
+  }
+</style>

@@ -1,0 +1,256 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<BaseLayout title="Page not found" noindex>
+  <section class="notfound">
+    <div class="container notfound__inner">
+      <div class="notfound__code" aria-hidden="true">404</div>
+
+      <div class="notfound__content">
+        <span class="stamp">Struck from the record</span>
+        <h1>This page has<br /><span class="italic">no locus standi.</span></h1>
+        <p class="notfound__lede">
+          It may have moved, the URL may have a typo, or the page was never here in the first place.
+          The guide, however, is still very much in session.
+        </p>
+
+        <div class="notfound__actions">
+          <a class="btn" href="/guides">Browse the guides <Icon name="arrow" size={17} /></a>
+          <a class="btn btn--ghost" href="/">Back to the front page</a>
+        </div>
+
+        <div class="notfound__links">
+          <span>Popular pages:</span>
+          <a href="/guides/security-deposit/">Security deposit</a>
+          <a href="/guides/late-salary/">Late salary</a>
+          <a href="/guides/cyber-fraud/">Cyber fraud</a>
+          <a href="/glossary">Glossary</a>
+        </div>
+      </div>
+
+      <aside class="notfound__card">
+        <div class="notfound__card-head">
+          <span>Case file</span>
+          <span>No. 404/2026</span>
+        </div>
+        <dl>
+          <div>
+            <dt>Claim</dt>
+            <dd>The page exists.</dd>
+          </div>
+          <div>
+            <dt>Finding</dt>
+            <dd>Not on the record.</dd>
+          </div>
+          <div>
+            <dt>Order</dt>
+            <dd>Try a link above.</dd>
+          </div>
+        </dl>
+        <div class="notfound__card-foot">
+          <span>Dismissed</span>
+          <span class="notfound__seal">§</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    display: grid;
+    place-items: center;
+    min-height: 68vh;
+    padding-block: clamp(3rem, 8vw, 7rem);
+    background:
+      radial-gradient(circle at 80% 20%, rgba(31, 60, 255, 0.08), transparent 30%),
+      var(--paper);
+  }
+
+  .notfound__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .notfound__code {
+    position: absolute;
+    top: -0.25em;
+    left: -0.03em;
+    z-index: 0;
+    font-family: var(--font-display);
+    font-size: clamp(9rem, 30vw, 26rem);
+    font-weight: 800;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--line-strong);
+    opacity: 0.35;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .notfound__content {
+    position: relative;
+    z-index: 1;
+    max-width: 40rem;
+  }
+
+  .notfound__content .stamp {
+    color: var(--red);
+    font-size: 0.58rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .notfound h1 {
+    margin-top: 1.2rem;
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+  }
+
+  .notfound__lede {
+    max-width: 34rem;
+    margin-top: 1.3rem;
+    font-size: clamp(1rem, 0.96rem + 0.3vw, 1.15rem);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.8rem;
+  }
+
+  .notfound__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+  }
+
+  .notfound__links span {
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .notfound__links a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 0.1rem;
+  }
+
+  .notfound__links a:hover {
+    color: var(--blue-deep);
+    border-color: var(--blue);
+  }
+
+  .notfound__card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 22rem;
+    justify-self: start;
+    background: var(--paper-bright);
+    border: 1.5px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--ink);
+    transform: rotate(-1.2deg);
+  }
+
+  .notfound__card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0.9rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-ui);
+    font-size: 0.56rem;
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .notfound__card dl {
+    margin: 0;
+    padding: 0.5rem 0.9rem;
+  }
+
+  .notfound__card dl > div {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .notfound__card dl > div:last-child {
+    border-bottom: 0;
+  }
+
+  .notfound__card dt {
+    font-family: var(--font-ui);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .notfound__card dd {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .notfound__card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 0.9rem;
+    border-top: 1px solid var(--line-strong);
+    font-family: var(--font-ui);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .notfound__seal {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid var(--red);
+    border-radius: 50%;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--red);
+    transform: rotate(-8deg);
+  }
+
+  @media (min-width: 900px) {
+    .notfound__inner {
+      grid-template-columns: 1fr 20rem;
+      gap: 4rem;
+    }
+
+    .notfound__card {
+      justify-self: end;
+    }
+  }
+</style>

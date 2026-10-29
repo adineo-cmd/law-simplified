@@ -1,0 +1,559 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { topics } from '../../data/topics';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const guides = await getCollection('guides');
+
+  return topics.map((topic) => ({
+    params: { topic: topic.id },
+    props: {
+      topic,
+      guides: guides
+        .filter((guide) => guide.data.topic === topic.id)
+        .sort((a, b) => a.data.order - b.data.order),
+    },
+  }));
+};
+
+interface Props {
+  topic: (typeof topics)[number];
+  guides: CollectionEntry<'guides'>[];
+}
+
+const { topic, guides } = Astro.props;
+const related = topics.filter((item) => item.id !== topic.id);
+const total = guides.length;
+---
+
+<BaseLayout
+  title={`${topic.name} guides`}
+  description={`${topic.description} Plain-English ${topic.name.toLowerCase()} guides for India.`}
+>
+  <header class="topic-head" style={`--topic:${topic.color};--wash:${topic.wash}`}>
+    <div class="container topic-head__inner">
+      <div class="topic-head__main">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/topics">Topics</a>
+          <span aria-hidden="true">/</span>
+          <span>{topic.name}</span>
+        </nav>
+
+        <div class="topic-head__title-row">
+          <span class="topic-head__icon"><Icon name={topic.icon} size={30} /></span>
+          <h1>{topic.name}</h1>
+        </div>
+        <p class="topic-head__desc">{topic.description}</p>
+      </div>
+
+      <div class="topic-head__aside">
+        <span class="topic-head__count">{String(total).padStart(2, '0')}</span>
+        <span class="topic-head__count-label">{total === 1 ? 'guide' : 'guides'} in this topic</span>
+        <p class="topic-head__short">{topic.short}.</p>
+      </div>
+    </div>
+    <span class="topic-head__watermark" aria-hidden="true">{topic.name}</span>
+  </header>
+
+  <section class="topic-body">
+    <div class="container">
+      {
+        total > 0 ? (
+          <div class="topic-guides">
+            {guides.map((guide, i) => (
+              <a href={`/guides/${guide.id}/`} class="topic-guide" style={`--topic:${topic.color}`}>
+                <span class="topic-guide__num">{String(i + 1).padStart(2, '0')}</span>
+                <span class="topic-guide__main">
+                  <span class="topic-guide__title">{guide.data.title}</span>
+                  <span class="topic-guide__dek">{guide.data.dek}</span>
+                  <span class="topic-guide__tags">
+                    {guide.data.tags.slice(0, 3).map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </span>
+                </span>
+                <span class="topic-guide__meta">
+                  <span>{guide.data.readTime} min read</span>
+                  <span class="topic-guide__arrow"><Icon name="arrow" size={20} /></span>
+                </span>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div class="topic-empty">
+            <h2>We are writing this one.</h2>
+            <p>
+              There is no {topic.name.toLowerCase()} guide yet. In the meantime, search the rest of
+              the guide or ask your District Legal Services Authority.
+            </p>
+            <a class="btn btn--ghost btn--sm" href="/guides">Browse all guides</a>
+          </div>
+        )
+      }
+
+      <div class="topic-note">
+        <div class="topic-note__mark" aria-hidden="true">!</div>
+        <div>
+          <h2>Before you rely on any guide</h2>
+          <p>
+            These guides are general information about Indian law, not legal advice on your facts.
+            State rules, court fees, and procedures change. If money, liberty, or a home is on the
+            line, speak to a qualified advocate or your District Legal Services Authority.
+          </p>
+        </div>
+        <a class="arrow-link" href="/disclaimer">Full disclaimer <Icon name="arrow" size={15} /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="related">
+    <div class="container">
+      <div class="related__head">
+        <p class="eyebrow eyebrow--light">Keep looking</p>
+        <h2>Other doors into the guide.</h2>
+      </div>
+      <div class="related__grid">
+        {
+          related.map((item) => (
+            <a href={`/topics/${item.id}`} class="related-card" style={`--topic:${item.color};--wash:${item.wash}`}>
+              <span class="related-card__icon"><Icon name={item.icon} size={22} /></span>
+              <span class="related-card__name">{item.name}</span>
+              <span class="related-card__short">{item.short}</span>
+              <Icon name="arrow-up-right" size={16} class="related-card__arrow" />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .topic-head {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2rem, 4vw, 3rem) clamp(2.5rem, 5vw, 4rem);
+    background:
+      linear-gradient(115deg, var(--wash) 0%, color-mix(in srgb, var(--wash) 35%, var(--paper)) 52%, var(--paper) 100%);
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .topic-head::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--topic);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .breadcrumb a {
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .topic-head__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-top: clamp(1.8rem, 3vw, 2.5rem);
+  }
+
+  .topic-head__title-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+
+  .topic-head__icon {
+    display: grid;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    flex: none;
+    border: 2px solid var(--topic);
+    border-radius: 50%;
+    color: var(--topic);
+    background: color-mix(in srgb, var(--paper-bright) 55%, transparent);
+  }
+
+  .topic-head h1 {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.88;
+    letter-spacing: -0.055em;
+    color: var(--ink);
+  }
+
+  .topic-head__desc {
+    max-width: 38rem;
+    margin-top: 1.2rem;
+    font-size: clamp(1.02rem, 0.98rem + 0.3vw, 1.2rem);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .topic-head__aside {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    align-self: end;
+    padding: 1.1rem 1.2rem;
+    background: var(--paper-bright);
+    border: 1px solid var(--line-strong);
+    border-left: 4px solid var(--topic);
+    box-shadow: 5px 5px 0 var(--line);
+    max-width: 16rem;
+  }
+
+  .topic-head__count {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 730;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: var(--topic);
+  }
+
+  .topic-head__count-label {
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .topic-head__short {
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+
+  .topic-head__watermark {
+    position: absolute;
+    right: -0.05em;
+    bottom: -0.28em;
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 24vw, 22rem);
+    font-weight: 780;
+    letter-spacing: -0.07em;
+    line-height: 1;
+    color: var(--topic);
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .topic-body {
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .topic-guides {
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .topic-guide {
+    display: grid;
+    grid-template-columns: 1.7rem 1fr;
+    gap: 0.9rem;
+    padding: 1.5rem 0.3rem 1.5rem 0;
+    border-bottom: 1px solid var(--line-strong);
+    text-decoration: none;
+    transition:
+      padding 0.22s var(--ease),
+      background 0.22s ease;
+  }
+
+  .topic-guide:hover {
+    padding-left: 0.6rem;
+    background: color-mix(in srgb, var(--topic) 4%, transparent);
+  }
+
+  .topic-guide__num {
+    font-family: var(--font-ui);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--topic);
+    padding-top: 0.35rem;
+  }
+
+  .topic-guide__main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+
+  .topic-guide__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 1.15rem + 0.7vw, 1.9rem);
+    font-weight: 660;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    transition: color 0.18s ease;
+  }
+
+  .topic-guide:hover .topic-guide__title {
+    color: var(--topic);
+  }
+
+  .topic-guide__dek {
+    max-width: 52ch;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .topic-guide__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+  }
+
+  .topic-guide__tags .tag {
+    font-size: 0.55rem;
+    padding: 0.2rem 0.42rem;
+  }
+
+  .topic-guide__meta {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0.4rem;
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .topic-guide__arrow {
+    display: grid;
+    place-items: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    color: var(--ink);
+    transition:
+      background 0.18s ease,
+      color 0.18s ease,
+      transform 0.22s var(--ease);
+  }
+
+  .topic-guide:hover .topic-guide__arrow {
+    background: var(--topic);
+    border-color: var(--topic);
+    color: var(--paper-bright);
+    transform: translateX(3px);
+  }
+
+  .topic-empty {
+    padding: 4rem 2rem;
+    border: 1px dashed var(--line-strong);
+    text-align: center;
+  }
+
+  .topic-empty h2 {
+    font-size: 2rem;
+  }
+
+  .topic-empty p {
+    max-width: 32rem;
+    margin: 0.7rem auto 1.4rem;
+    color: var(--ink-soft);
+  }
+
+  .topic-note {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem 1.2rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding: 1.3rem 1.4rem;
+    background: var(--paper-bright);
+    border: 1px solid var(--line-strong);
+    border-left: 4px solid var(--red);
+  }
+
+  .topic-note__mark {
+    display: grid;
+    place-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--paper-bright);
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  .topic-note h2 {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .topic-note p {
+    max-width: 58rem;
+    margin-top: 0.35rem;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .topic-note .arrow-link {
+    grid-column: 2;
+    justify-self: start;
+    font-size: 0.7rem;
+  }
+
+  .related {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .eyebrow--light {
+    color: rgba(255, 253, 245, 0.55);
+  }
+
+  .eyebrow--light::before {
+    background: var(--paper-bright);
+  }
+
+  .related__head h2 {
+    margin-top: 0.7rem;
+    font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+  }
+
+  .related__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .related-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.3rem 0.9rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid rgba(245, 239, 217, 0.22);
+    text-decoration: none;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .related-card:hover {
+    background: var(--wash);
+    border-color: var(--wash);
+    color: var(--ink);
+  }
+
+  .related-card__icon {
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    color: var(--topic);
+  }
+
+  .related-card__name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .related-card__short {
+    grid-column: 2;
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    color: rgba(245, 239, 217, 0.55);
+  }
+
+  .related-card:hover .related-card__short {
+    color: var(--ink-soft);
+  }
+
+  .related-card__arrow {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    color: rgba(245, 239, 217, 0.55);
+  }
+
+  .related-card:hover .related-card__arrow {
+    color: var(--topic);
+  }
+
+  @media (min-width: 700px) {
+    .topic-head__inner {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 3rem;
+    }
+
+    .topic-guide {
+      grid-template-columns: 2.2rem 1fr auto;
+      gap: 1.2rem;
+      align-items: start;
+    }
+
+    .topic-guide__meta {
+      grid-column: 3;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.8rem;
+      padding-top: 0.35rem;
+    }
+
+    .related__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .related__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

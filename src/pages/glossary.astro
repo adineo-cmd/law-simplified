@@ -1,0 +1,580 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { glossary, glossaryCategories } from '../data/glossary';
+
+const slug = (term: string) => term.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+const sorted = [...glossary].sort((a, b) => a.term.localeCompare(b.term));
+const groups = new Map<string, typeof glossary>();
+for (const term of sorted) {
+  const letter = term.term[0].toUpperCase();
+  if (!groups.has(letter)) groups.set(letter, []);
+  groups.get(letter)!.push(term);
+}
+const letters = [...groups.keys()];
+const featured = glossary.find((term) => term.term === 'Vakalatnama')!;
+const countFor = (category: string) => glossary.filter((term) => term.category === category).length;
+---
+
+<BaseLayout
+  title="Glossary"
+  description="A plain-English dictionary of Indian legal terms — from affidavit and caveat to vakalatnama, writ, and zero FIR."
+>
+  <header class="glossary-head">
+    <div class="container">
+      <p class="eyebrow">The dictionary · {glossary.length} terms</p>
+      <div class="glossary-head__grid">
+        <div>
+          <h1>The <span class="italic">dictionary.</span></h1>
+          <p class="glossary-head__lede">
+            A word you do not recognise is not a word you have to accept. Look it up, then go back
+            to the letter with a better question.
+          </p>
+        </div>
+
+        <aside class="featured-term">
+          <div class="featured-term__head">
+            <span>Term of the edition</span>
+            <span class="stamp">Plain English</span>
+          </div>
+          <h2>{featured.term}</h2>
+          <p>{featured.plain}</p>
+          <span class="featured-term__cat">{featured.category}</span>
+        </aside>
+      </div>
+    </div>
+    <span class="glossary-head__mark" aria-hidden="true">Aa</span>
+  </header>
+
+  <section class="glossary-body">
+    <div class="container">
+      <div class="glossary-controls">
+        <label class="field glossary-search">
+          <Icon name="search" size={17} />
+          <span class="sr-only">Search the glossary</span>
+          <input type="search" placeholder="Search a term or meaning…" autocomplete="off" data-term-search />
+        </label>
+
+        <div class="glossary-filters" role="group" aria-label="Filter glossary by category">
+          <button type="button" class="cat-filter is-active" data-filter-cat="all" aria-pressed="true">
+            All <span>{glossary.length}</span>
+          </button>
+          {
+            glossaryCategories.map((category) => (
+              <button type="button" class="cat-filter" data-filter-cat={category} aria-pressed="false">
+                {category} <span>{countFor(category)}</span>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="glossary-status">
+        <p data-term-count>Showing {glossary.length} of {glossary.length} terms</p>
+        <p class="glossary-status__note">Definitions are general; a statute’s own definition always wins.</p>
+      </div>
+
+      <nav class="alphabet" aria-label="Jump to letter">
+        {
+          letters.map((letter) => (
+            <a href={`#letter-${letter}`} data-letter-link={letter}>{letter}</a>
+          ))
+        }
+      </nav>
+
+      <div class="term-groups" data-term-groups>
+        {
+          [...groups.entries()].map(([letter, terms]) => (
+            <section class="term-group" id={`letter-${letter}`} data-term-group={letter}>
+              <h2 class="term-group__letter" aria-hidden="true">{letter}</h2>
+              <dl class="term-list">
+                {terms.map((term) => (
+                  <div
+                    class="term"
+                    id={`term-${slug(term.term)}`}
+                    data-term
+                    data-term-text={`${term.term} ${term.plain} ${term.category}`.toLowerCase()}
+                    data-term-category={term.category}
+                  >
+                    <dt>
+                      <span class="term__name">{term.term}</span>
+                      <span class="term__cat">{term.category}</span>
+                    </dt>
+                    <dd>{term.plain}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          ))
+        }
+      </div>
+
+      <div class="glossary-empty" data-term-empty hidden>
+        <span aria-hidden="true">§</span>
+        <h2>No term matches that.</h2>
+        <p>Try a shorter word, or search the guides for the situation instead.</p>
+        <a class="btn btn--ghost btn--sm" href="/guides">Browse the guides</a>
+      </div>
+
+      <div class="glossary-note">
+        <div class="glossary-note__mark">i</div>
+        <p>
+          This glossary explains how terms are commonly used in Indian legal contexts. It is not a
+          statutory dictionary and it is not legal advice. If a statute, rule, or contract defines a
+          term differently, that definition applies.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .glossary-head {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem);
+    border-bottom: 1.5px solid var(--ink);
+    background:
+      radial-gradient(circle at 15% 85%, rgba(122, 63, 209, 0.07), transparent 28%),
+      var(--paper);
+  }
+
+  .glossary-head__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: end;
+    margin-top: 1rem;
+  }
+
+  .glossary-head h1 {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.88;
+    letter-spacing: -0.055em;
+  }
+
+  .glossary-head__lede {
+    max-width: 34rem;
+    margin-top: 1.4rem;
+    font-size: clamp(1rem, 0.96rem + 0.35vw, 1.2rem);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .featured-term {
+    max-width: 21rem;
+    padding: 1.2rem 1.3rem 1.4rem;
+    background: var(--paper-bright);
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--violet);
+    box-shadow: 5px 5px 0 var(--line);
+    transform: rotate(-1deg);
+  }
+
+  .featured-term__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-ui);
+    font-size: 0.55rem;
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .featured-term__head .stamp {
+    color: var(--violet);
+    font-size: 0.5rem;
+    padding: 0.25rem 0.35rem;
+    transform: none;
+  }
+
+  .featured-term h2 {
+    margin-top: 0.8rem;
+    font-size: 2rem;
+    letter-spacing: -0.04em;
+  }
+
+  .featured-term p {
+    margin-top: 0.5rem;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .featured-term__cat {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-family: var(--font-ui);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--violet);
+  }
+
+  .glossary-head__mark {
+    position: absolute;
+    right: 1%;
+    bottom: -0.28em;
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 22vw, 20rem);
+    font-weight: 780;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    color: var(--ink);
+    opacity: 0.035;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .glossary-body {
+    padding-block: clamp(2rem, 4vw, 3rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .glossary-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .glossary-search {
+    max-width: 26rem;
+  }
+
+  .glossary-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .cat-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 550;
+    color: var(--ink-soft);
+    transition:
+      background 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .cat-filter span {
+    font-size: 0.54rem;
+    font-weight: 700;
+    opacity: 0.55;
+  }
+
+  .cat-filter:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .cat-filter.is-active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .glossary-status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block: 0.9rem;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+
+  .glossary-status__note {
+    opacity: 0.8;
+  }
+
+  .alphabet {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    padding: 0.6rem 0;
+    border-block: 1px solid var(--line);
+  }
+
+  .alphabet a {
+    display: grid;
+    place-items: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ink-soft);
+    border-radius: 50%;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .alphabet a:hover {
+    background: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .term-groups {
+    margin-top: 1rem;
+  }
+
+  .term-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 8rem;
+  }
+
+  .term-group__letter {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 780;
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    color: var(--paper-deep);
+    -webkit-text-stroke: 1px var(--line-strong);
+  }
+
+  .term-list {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .term {
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 8rem;
+  }
+
+  .term:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .term dt {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .term__name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .term__cat {
+    font-family: var(--font-ui);
+    font-size: 0.52rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .term dd {
+    max-width: 62ch;
+    margin: 0.25rem 0 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .term[hidden],
+  .term-group[hidden],
+  .alphabet a[hidden] {
+    display: none;
+  }
+
+  .term:target {
+    background: rgba(31, 60, 255, 0.05);
+    box-shadow: -0.6rem 0 0 rgba(31, 60, 255, 0.05), 0.6rem 0 0 rgba(31, 60, 255, 0.05);
+  }
+
+  .glossary-empty {
+    padding: 4rem 1rem;
+    text-align: center;
+    border: 1px dashed var(--line-strong);
+  }
+
+  .glossary-empty > span {
+    font-family: var(--font-body);
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--red);
+  }
+
+  .glossary-empty h2 {
+    margin-top: 0.5rem;
+    font-size: 2rem;
+  }
+
+  .glossary-empty p {
+    margin: 0.6rem 0 1.3rem;
+    color: var(--ink-soft);
+  }
+
+  .glossary-note {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 2.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line-strong);
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .glossary-note__mark {
+    display: grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    flex: none;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    font-size: 0.6rem;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  .glossary-note p {
+    max-width: 70ch;
+  }
+
+  @media (min-width: 700px) {
+    .glossary-head__grid {
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 3rem;
+    }
+
+    .glossary-controls {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .glossary-search {
+      flex: none;
+      width: 20rem;
+    }
+
+    .term-group {
+      grid-template-columns: 5rem 1fr;
+      gap: 1.5rem;
+      padding-block: 2rem;
+    }
+
+    .term-group__letter {
+      position: sticky;
+      top: 7rem;
+      align-self: start;
+      font-size: 4.5rem;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .glossary-head__grid {
+      grid-template-columns: 1.4fr 0.6fr;
+    }
+
+    .term-group {
+      grid-template-columns: 7rem 1fr;
+      gap: 2.5rem;
+    }
+
+    .term-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 2.5rem;
+    }
+
+    .term {
+      border-top: 1px solid var(--line);
+    }
+
+    .term:nth-child(-n + 2) {
+      border-top: 0;
+      padding-top: 0;
+    }
+  }
+</style>
+
+<script>
+  const terms = Array.from(document.querySelectorAll<HTMLElement>('[data-term]'));
+  const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-term-group]'));
+  const categoryButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter-cat]'));
+  const search = document.querySelector<HTMLInputElement>('[data-term-search]');
+  const countEl = document.querySelector<HTMLElement>('[data-term-count]');
+  const emptyEl = document.querySelector<HTMLElement>('[data-term-empty]');
+  const letterLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-letter-link]'));
+  let activeCategory = 'all';
+
+  function apply() {
+    const query = (search?.value ?? '').trim().toLowerCase();
+    let visible = 0;
+
+    terms.forEach((term) => {
+      const categoryMatch = activeCategory === 'all' || term.dataset.termCategory === activeCategory;
+      const textMatch = !query || (term.dataset.termText ?? '').includes(query);
+      const show = categoryMatch && textMatch;
+      term.hidden = !show;
+      if (show) visible += 1;
+    });
+
+    groups.forEach((group) => {
+      group.hidden = !group.querySelector('[data-term]:not([hidden])');
+    });
+
+    letterLinks.forEach((link) => {
+      const letter = link.dataset.letterLink;
+      const group = letter ? document.querySelector<HTMLElement>(`[data-term-group="${letter}"]`) : null;
+      link.hidden = Boolean(group?.hidden);
+    });
+
+    if (countEl) countEl.textContent = `Showing ${visible} of ${terms.length} terms`;
+    if (emptyEl) emptyEl.hidden = visible !== 0;
+  }
+
+  categoryButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      activeCategory = button.dataset.filterCat ?? 'all';
+      categoryButtons.forEach((other) => {
+        const active = other === button;
+        other.classList.toggle('is-active', active);
+        other.setAttribute('aria-pressed', String(active));
+      });
+      apply();
+    });
+  });
+
+  search?.addEventListener('input', apply);
+</script>

@@ -1,0 +1,171 @@
+---
+import Icon from './Icon.astro';
+import type { Topic } from '../data/topics';
+
+interface Props {
+  topic: Topic;
+  count: number;
+  index: number;
+}
+
+const { topic, count, index } = Astro.props;
+---
+
+<a
+  href={`/topics/${topic.id}`}
+  class="topic-row"
+  style={`--topic:${topic.color};--wash:${topic.wash}`}
+>
+  <span class="topic-row__num">{String(index).padStart(2, '0')}</span>
+  <span class="topic-row__icon"><Icon name={topic.icon} size={22} /></span>
+  <span class="topic-row__body">
+    <span class="topic-row__name">{topic.name}</span>
+    <span class="topic-row__short">{topic.short}</span>
+  </span>
+  <span class="topic-row__count">{count} {count === 1 ? 'guide' : 'guides'}</span>
+  <span class="topic-row__arrow"><Icon name="arrow" size={22} /></span>
+</a>
+
+<style>
+  .topic-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.7rem 2rem 1fr auto;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1.15rem 0.9rem 1.15rem 0.35rem;
+    border-top: 1px solid var(--line-strong);
+    text-decoration: none;
+    overflow: hidden;
+    isolation: isolate;
+    transition: padding 0.25s var(--ease);
+  }
+
+  .topic-row:last-child {
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .topic-row::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--topic);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.28s var(--ease);
+  }
+
+  .topic-row:hover::before,
+  .topic-row:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  .topic-row:hover,
+  .topic-row:focus-visible {
+    color: var(--paper-bright);
+    padding-left: 1.1rem;
+  }
+
+  .topic-row__num {
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    transition: color 0.2s ease;
+  }
+
+  .topic-row__icon {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    color: var(--topic);
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .topic-row__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .topic-row__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 2rem);
+    font-weight: 660;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .topic-row__short {
+    font-family: var(--font-ui);
+    font-size: 0.73rem;
+    color: var(--ink-soft);
+    transition: color 0.2s ease;
+  }
+
+  .topic-row__count {
+    display: none;
+    font-family: var(--font-ui);
+    font-size: 0.67rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: color 0.2s ease;
+  }
+
+  .topic-row__arrow {
+    display: grid;
+    place-items: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: var(--paper-bright);
+    color: var(--ink);
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      transform 0.25s var(--ease);
+  }
+
+  .topic-row:hover .topic-row__num,
+  .topic-row:hover .topic-row__short,
+  .topic-row:hover .topic-row__count {
+    color: rgba(255, 253, 245, 0.78);
+  }
+
+  .topic-row:hover .topic-row__icon {
+    color: var(--paper-bright);
+    border-color: rgba(255, 253, 245, 0.55);
+  }
+
+  .topic-row:hover .topic-row__arrow {
+    background: var(--paper-bright);
+    color: var(--topic);
+    transform: translateX(4px);
+  }
+
+  @media (min-width: 640px) {
+    .topic-row {
+      grid-template-columns: 2.2rem 2.6rem 1fr auto auto;
+      gap: 1.2rem;
+      padding-block: 1.35rem;
+    }
+
+    .topic-row__icon {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    .topic-row__count {
+      display: inline;
+    }
+  }
+</style>

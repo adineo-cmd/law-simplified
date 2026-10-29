@@ -1,0 +1,555 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const principles = [
+  {
+    n: '01',
+    title: 'Plain before precise',
+    text: 'A guide that is technically accurate and practically useless has failed. We write the plain version first, then keep the precise version in the sources.',
+  },
+  {
+    n: '02',
+    title: 'Steps before theory',
+    text: 'You came here with a problem, not a syllabus. Every guide tells you what to do next, what to keep, and what to say.',
+  },
+  {
+    n: '03',
+    title: 'Sources on the record',
+    text: 'Statutes, official portals, and court judgments are linked. Where the law varies by state, the guide says so instead of pretending otherwise.',
+  },
+  {
+    n: '04',
+    title: 'No fear-selling',
+    text: 'We do not tell you that you are doomed, and we do not sell your problem to a lawyer. The guide is free, and it stays free.',
+  },
+];
+
+const steps = [
+  { n: '01', title: 'Start with the real question', text: 'What is the person actually trying to get? A refund, a key, a salary, a copy of an FIR, an answer.' },
+  { n: '02', title: 'Read the law, not just the summary', text: 'The statute, the procedural code, the official portal, and the leading case law. Then the practical commentary.' },
+  { n: '03', title: 'Write the short version', text: 'One paragraph that a tired person can read at 11pm and still understand. If it cannot be said plainly, it is not ready.' },
+  { n: '04', title: 'Add the paper trail', text: 'The steps, the template, the evidence to preserve, the escalation route, and the limits of the guide.' },
+];
+
+const notFor = [
+  'A substitute for an advocate who has read your agreement.',
+  'A prediction of what a court or authority will decide.',
+  'A directory of lawyers or a lead-generation service.',
+  'A source of emergency help. If you are in danger, call 112.',
+];
+---
+
+<BaseLayout
+  title="About"
+  description="Law, Simplified. is an independent, free field guide to Indian law — written in plain English, with the sources kept."
+>
+  <header class="about-head">
+    <div class="container">
+      <p class="eyebrow">About the guide</p>
+      <div class="about-head__grid">
+        <h1>A guide,<br />not a <span class="italic">law firm.</span></h1>
+        <div class="about-head__aside">
+          <p>
+            Law, Simplified. is an independent educational project. It exists for the moment when
+            someone waves a clause at you and you need to know what it actually means — without
+            paying for an hour of a lawyer’s time to find out.
+          </p>
+          <p class="about-head__meta">Independent · Free · India · Edition 01</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="manifesto">
+    <div class="container manifesto__grid">
+      <div class="manifesto__label">
+        <span class="eyebrow">Why this exists</span>
+        <span class="manifesto__mark" aria-hidden="true">§</span>
+      </div>
+      <div class="manifesto__body">
+        <p class="manifesto__lead">
+          The law is public. The language it arrives in is not.
+        </p>
+        <p>
+          Most people meet the law at the worst possible moment: a deposit is being withheld, a
+          salary has stopped, a police station is refusing to file a complaint, a scam has emptied
+          an account. The information exists, but it is buried in statutes, notifications, and
+          judgments written for other lawyers.
+        </p>
+        <p>
+          This guide is an attempt to move that information closer to the person who needs it. Not
+          by dumbing it down, and not by pretending every problem has a tidy answer, but by
+          translating the structure: what the law says, what you can ask for, what you should keep,
+          and where to go next.
+        </p>
+        <p class="manifesto__pull">
+          “You do not need to become a lawyer to use the law. You need a clear next step.”
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="principles">
+    <div class="container">
+      <div class="principles__head">
+        <p class="eyebrow">Editorial rules</p>
+        <h2>Four things we<br />try not to do.</h2>
+      </div>
+      <div class="principles__grid">
+        {
+          principles.map((principle) => (
+            <article class="principle">
+              <span class="principle__num">{principle.n}</span>
+              <h3>{principle.title}</h3>
+              <p>{principle.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="process">
+    <div class="container process__grid">
+      <div class="process__intro">
+        <p class="eyebrow">How a guide is made</p>
+        <h2>Read. Cut. Check.<br /><span class="italic">Cut again.</span></h2>
+        <p>
+          Every guide goes through the same loop. The goal is not to sound authoritative. It is to
+          be useful, accurate, and honest about the edges.
+        </p>
+      </div>
+      <ol class="process__steps" role="list">
+        {
+          steps.map((step) => (
+            <li>
+              <span class="process__num">{step.n}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="scope">
+    <div class="container">
+      <div class="scope__head">
+        <p class="eyebrow">The fine print, in plain English</p>
+        <h2>What this is.<br />What it is not.</h2>
+      </div>
+      <div class="scope__grid">
+        <div class="scope__card scope__card--yes">
+          <h3><Icon name="check" size={18} /> This is</h3>
+          <ul role="list">
+            <li>General information about Indian law, written for non-lawyers.</li>
+            <li>A practical starting point: steps, documents, templates, escalation routes.</li>
+            <li>A directory of official sources you can read yourself.</li>
+            <li>Free, and free of sign-up walls.</li>
+          </ul>
+        </div>
+        <div class="scope__card scope__card--no">
+          <h3><Icon name="close" size={18} /> This is not</h3>
+          <ul role="list">
+            {notFor.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-close">
+    <div class="container about-close__inner">
+      <div>
+        <p class="eyebrow eyebrow--light">Corrections welcome</p>
+        <h2>If something is wrong,<br />tell us.</h2>
+        <p>
+          Laws change. Portals move. A fee changes without a press release. If you spot an error, a
+          broken link, or a sentence that could be clearer, write to
+          <a href={`mailto:${site.email}`}>{site.email}</a>. Corrections are reviewed and noted.
+        </p>
+      </div>
+      <a class="btn btn--paper" href="/guides">Read the guides <Icon name="arrow" size={17} /></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-head {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem);
+    border-bottom: 1.5px solid var(--ink);
+    background:
+      radial-gradient(circle at 88% 18%, rgba(229, 72, 47, 0.08), transparent 28%),
+      var(--paper);
+  }
+
+  .about-head__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  .about-head h1 {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.88;
+    letter-spacing: -0.055em;
+  }
+
+  .about-head__aside {
+    max-width: 30rem;
+  }
+
+  .about-head__aside p {
+    font-size: clamp(1rem, 0.96rem + 0.3vw, 1.16rem);
+    line-height: 1.62;
+    color: var(--ink-soft);
+  }
+
+  .about-head__aside p + p {
+    margin-top: 1rem;
+  }
+
+  .about-head__meta {
+    font-family: var(--font-ui) !important;
+    font-size: 0.64rem !important;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft) !important;
+  }
+
+  .manifesto {
+    padding-block: clamp(3rem, 7vw, 6rem);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .manifesto__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .manifesto__label {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .manifesto__mark {
+    font-family: var(--font-body);
+    font-size: clamp(5rem, 12vw, 9rem);
+    line-height: 0.8;
+    color: var(--red);
+    opacity: 0.2;
+  }
+
+  .manifesto__body {
+    max-width: 46rem;
+  }
+
+  .manifesto__lead {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  .manifesto__body p + p {
+    margin-top: 1.2rem;
+  }
+
+  .manifesto__body > p:not(.manifesto__lead):not(.manifesto__pull) {
+    color: var(--ink-soft);
+    line-height: 1.68;
+  }
+
+  .manifesto__pull {
+    margin-top: 2rem;
+    padding: 1.2rem 0 1.2rem 1.4rem;
+    border-left: 3px solid var(--blue);
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .principles {
+    padding-block: clamp(3rem, 7vw, 6rem);
+    background: var(--paper-deep);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .principles__head h2 {
+    margin-top: 0.8rem;
+    font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+  }
+
+  .principles__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 2.5rem;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .principle {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .principle__num {
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--red);
+  }
+
+  .principle h3 {
+    margin-top: 0.4rem;
+    font-size: 1.35rem;
+  }
+
+  .principle p {
+    max-width: 34rem;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .process {
+    padding-block: clamp(3rem, 7vw, 6rem);
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .process__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .process__intro h2 {
+    margin-top: 0.8rem;
+    font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+    line-height: 0.94;
+  }
+
+  .process__intro p {
+    max-width: 28rem;
+    margin-top: 1.2rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .process__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .process__steps li {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 1rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .process__num {
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--red);
+    padding-top: 0.2rem;
+  }
+
+  .process__steps h3 {
+    font-size: 1.2rem;
+  }
+
+  .process__steps p {
+    margin-top: 0.35rem;
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .scope {
+    padding-block: clamp(3rem, 7vw, 6rem);
+    background: var(--paper);
+  }
+
+  .scope__head h2 {
+    margin-top: 0.8rem;
+    font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+  }
+
+  .scope__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2.2rem;
+  }
+
+  .scope__card {
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-bright);
+  }
+
+  .scope__card--yes {
+    border-top: 3px solid var(--green);
+  }
+
+  .scope__card--no {
+    border-top: 3px solid var(--red);
+  }
+
+  .scope__card h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .scope__card--yes h3 svg {
+    color: var(--green);
+  }
+
+  .scope__card--no h3 svg {
+    color: var(--red);
+  }
+
+  .scope__card ul {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .scope__card li {
+    position: relative;
+    padding-left: 1rem;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .scope__card li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--line-strong);
+  }
+
+  .about-close {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .eyebrow--light {
+    color: rgba(255, 253, 245, 0.55);
+  }
+
+  .eyebrow--light::before {
+    background: var(--paper-bright);
+  }
+
+  .about-close__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .about-close h2 {
+    margin-top: 0.7rem;
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+  }
+
+  .about-close p {
+    max-width: 36rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: rgba(255, 253, 245, 0.68);
+  }
+
+  .about-close a:not(.btn) {
+    color: var(--paper-bright);
+    text-decoration-color: rgba(255, 253, 245, 0.4);
+  }
+
+  @media (min-width: 700px) {
+    .about-head__grid {
+      grid-template-columns: 1.25fr 0.75fr;
+      align-items: end;
+      gap: 3rem;
+    }
+
+    .manifesto__grid {
+      grid-template-columns: 12rem 1fr;
+      gap: 3rem;
+    }
+
+    .principles__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .principle {
+      padding: 1.8rem 1.8rem 1.8rem 0;
+      border-right: 1px solid var(--line);
+    }
+
+    .principle:nth-child(2n) {
+      padding-left: 1.8rem;
+      padding-right: 0;
+      border-right: 0;
+    }
+
+    .principle:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+
+    .process__grid {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 4rem;
+    }
+
+    .scope__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .about-close__inner {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .about-head__grid {
+      grid-template-columns: 1.4fr 0.6fr;
+    }
+  }
+</style>

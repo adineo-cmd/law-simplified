@@ -1,0 +1,329 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Disclaimer"
+  description="Law, Simplified. provides general information about Indian law, not legal advice. Read the full disclaimer."
+>
+  <header class="disclaimer-head">
+    <div class="container">
+      <p class="eyebrow">The fine print</p>
+      <div class="disclaimer-head__grid">
+        <h1>The <span class="italic">disclaimer.</span></h1>
+        <div class="disclaimer-head__aside">
+          <span class="stamp">Last reviewed {site.lastReviewed}</span>
+          <p>
+            The short version: this is general information, not legal advice. It does not create a
+            lawyer–client relationship. For your facts, speak to a qualified advocate.
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="disclaimer-body">
+    <div class="container disclaimer-grid">
+      <div class="prose disclaimer-prose">
+        <h2>General information only</h2>
+        <p>
+          Law, Simplified. publishes general information about Indian law for educational purposes.
+          It is not legal advice, and it is not a substitute for advice from a qualified advocate
+          who has considered your specific facts, documents, and jurisdiction.
+        </p>
+        <p>
+          Reading this website, using a template, or sending us an email does not create a
+          lawyer–client relationship. We do not act for you, do not represent you before any court
+          or authority, and do not monitor deadlines on your behalf.
+        </p>
+
+        <h2>No guarantee of accuracy or completeness</h2>
+        <p>
+          The law changes. Statutes are amended, rules are notified, fees are revised, and courts
+          interpret provisions differently over time. We review the guides periodically, but we
+          cannot guarantee that every page reflects the law on the day you read it, or that it
+          covers every fact that matters in your situation.
+        </p>
+        <p>
+          Where a guide describes a state-specific rule, a procedure, or a fee, treat it as a
+          starting point and verify it with the official source, the relevant authority, or a local
+          advocate.
+        </p>
+
+        <h2>Jurisdiction</h2>
+        <p>
+          This website focuses on law in India. It does not address the law of other countries. Even
+          within India, tenancy, labour, police, and court procedures can vary by state, union
+          territory, and the forum hearing the matter.
+        </p>
+
+        <h2>Templates are starting points</h2>
+        <p>
+          The letters and complaints in the toolkit are general templates. They are not drafted for
+          your matter. Before sending one, check the correct recipient, the applicable limitation
+          period, the right forum, and whether any statement in the template is accurate for your
+          facts. Do not sign or send a document you do not understand.
+        </p>
+
+        <h2>External links</h2>
+        <p>
+          We link to official portals, statutes, and other resources for convenience. We do not
+          control those websites and are not responsible for their content, availability, or
+          accuracy. A link is not an endorsement.
+        </p>
+
+        <h2>Emergencies and urgent matters</h2>
+        <p>
+          This website is not an emergency service. If you are in immediate danger, call
+          <a href="tel:112">112</a>. If you are reporting a cyber fraud, call
+          <a href="tel:1930">1930</a> and file at
+          <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer">cybercrime.gov.in</a>.
+          Do not wait to read a guide first.
+        </p>
+
+        <h2>Free legal aid</h2>
+        <p>
+          If you cannot afford a lawyer, you may be eligible for free legal aid under the Legal
+          Services Authorities Act, 1987. Contact your District Legal Services Authority or the
+          National Legal Services Authority helpline at <a href="tel:15100">15100</a>. Eligibility
+          and the scope of aid depend on the scheme and your circumstances.
+        </p>
+
+        <h2>Corrections</h2>
+        <p>
+          If you believe something on this site is inaccurate, out of date, or unclear, write to
+          <a href={`mailto:${site.email}`}>{site.email}</a> with the page and the correction. We
+          review corrections and update the page where appropriate.
+        </p>
+
+        <div class="disclaimer-end">
+          <Icon name="scale" size={22} />
+          <p>
+            The law belongs to everyone. Understanding it should not require a subscription.
+          </p>
+        </div>
+      </div>
+
+      <aside class="disclaimer-aside">
+        <div class="aside-card">
+          <h2>In short</h2>
+          <ul role="list">
+            <li><Icon name="check" size={14} /> General information, not legal advice.</li>
+            <li><Icon name="check" size={14} /> No lawyer–client relationship.</li>
+            <li><Icon name="check" size={14} /> Verify state-specific rules.</li>
+            <li><Icon name="check" size={14} /> Templates need adaptation.</li>
+            <li><Icon name="check" size={14} /> Emergencies: call 112.</li>
+          </ul>
+        </div>
+
+        <div class="aside-card aside-card--help">
+          <h2>Need a lawyer?</h2>
+          <p>
+            Your District Legal Services Authority can provide free legal aid if you qualify.
+          </p>
+          <a href="tel:15100" class="aside-card__phone">
+            <Icon name="phone" size={16} /> 15100
+          </a>
+          <a href="https://nalsa.gov.in/" target="_blank" rel="noopener noreferrer" class="arrow-link">
+            NALSA <Icon name="external" size={13} />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .disclaimer-head {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem);
+    border-bottom: 1.5px solid var(--ink);
+    background:
+      radial-gradient(circle at 85% 20%, rgba(229, 72, 47, 0.07), transparent 26%),
+      var(--paper);
+  }
+
+  .disclaimer-head__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: end;
+    margin-top: 1rem;
+  }
+
+  .disclaimer-head h1 {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.88;
+    letter-spacing: -0.055em;
+  }
+
+  .disclaimer-head__aside {
+    max-width: 26rem;
+  }
+
+  .disclaimer-head__aside .stamp {
+    color: var(--red);
+    font-size: 0.55rem;
+    padding: 0.3rem 0.45rem;
+  }
+
+  .disclaimer-head__aside p {
+    margin-top: 0.9rem;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .disclaimer-body {
+    padding-block: clamp(2.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .disclaimer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .disclaimer-prose {
+    counter-reset: section;
+  }
+
+  .disclaimer-prose h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .disclaimer-prose h2:first-child::before {
+    display: none;
+  }
+
+  .disclaimer-prose p {
+    max-width: 66ch;
+  }
+
+  .disclaimer-end {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-top: 2.5rem;
+    padding-top: 1.3rem;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .disclaimer-end svg {
+    flex: none;
+    color: var(--blue);
+    margin-top: 0.15rem;
+  }
+
+  .disclaimer-end p {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .disclaimer-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .aside-card {
+    padding: 1.15rem 1.25rem 1.3rem;
+    background: var(--paper-bright);
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--ink);
+  }
+
+  .aside-card h2 {
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .aside-card ul {
+    list-style: none;
+    margin: 0.9rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .aside-card li {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .aside-card li svg {
+    flex: none;
+    margin-top: 0.25rem;
+    color: var(--green);
+  }
+
+  .aside-card--help {
+    border-top-color: var(--blue);
+    background: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .aside-card--help h2 {
+    color: rgba(255, 253, 245, 0.55);
+  }
+
+  .aside-card--help p {
+    margin-top: 0.7rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: rgba(255, 253, 245, 0.7);
+  }
+
+  .aside-card__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.9rem;
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--paper-bright);
+    text-decoration: none;
+  }
+
+  .aside-card--help .arrow-link {
+    margin-top: 0.9rem;
+    color: var(--paper-bright);
+    border-color: rgba(255, 253, 245, 0.4);
+    font-size: 0.7rem;
+  }
+
+  @media (min-width: 700px) {
+    .disclaimer-head__grid {
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 3rem;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .disclaimer-grid {
+      grid-template-columns: minmax(0, 1fr) 19rem;
+      gap: 5rem;
+    }
+
+    .disclaimer-aside {
+      position: sticky;
+      top: 7rem;
+    }
+  }
+</style>

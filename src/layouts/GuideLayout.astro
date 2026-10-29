@@ -1,0 +1,756 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Callout from '../components/Callout.astro';
+import Icon from '../components/Icon.astro';
+import { topicMap } from '../data/topics';
+import { site } from '../data/site';
+
+interface Props {
+  guide: CollectionEntry<'guides'>;
+  prev?: CollectionEntry<'guides'>;
+  next?: CollectionEntry<'guides'>;
+}
+
+const { guide, prev, next } = Astro.props;
+const { Content, headings } = await render(guide);
+const topic = topicMap[guide.data.topic];
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+
+const date = new Intl.DateTimeFormat('en-IN', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(guide.data.updated);
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: guide.data.title,
+  description: guide.data.dek,
+  dateModified: guide.data.updated.toISOString(),
+  inLanguage: 'en-IN',
+  isAccessibleForFree: true,
+  publisher: {
+    '@type': 'Organization',
+    name: site.name,
+  },
+  about: topic.name,
+};
+---
+
+<BaseLayout
+  title={guide.data.title}
+  description={guide.data.dek}
+  ogType="article"
+  bodyClass="guide-page"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+
+  <article>
+    <header class="guide-head" style={`--topic:${topic.color};--wash:${topic.wash}`}>
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/guides">Guides</a>
+          <span aria-hidden="true">/</span>
+          <a href={`/topics/${topic.id}`}>{topic.name}</a>
+        </nav>
+
+        <div class="guide-head__grid">
+          <div class="guide-head__intro">
+            <span class="guide-head__topic">
+              <Icon name={topic.icon} size={16} />
+              {topic.name}
+            </span>
+            <h1>{guide.data.title}</h1>
+            <p class="guide-head__dek">{guide.data.dek}</p>
+          </div>
+
+          <div class="guide-head__note">
+            <span class="stamp">Plain English</span>
+            <p>
+              Written for people, not lawyers. Read the short version first — it is the whole
+              argument in one paragraph.
+            </p>
+          </div>
+        </div>
+
+        <div class="guide-head__meta">
+          <span><Icon name="clock" size={15} /> {guide.data.readTime} min read</span>
+          <span class="meta__dot" aria-hidden="true"></span>
+          <span><Icon name="calendar" size={15} /> Updated {date}</span>
+          <span class="meta__dot" aria-hidden="true"></span>
+          <span>General information, not legal advice</span>
+        </div>
+      </div>
+      <span class="guide-head__mark" aria-hidden="true">§</span>
+    </header>
+
+    <div class="container guide-body">
+      <div class="guide-main">
+        <aside class="short-version">
+          <span class="short-version__label">The short version</span>
+          <p>{guide.data.shortVersion}</p>
+        </aside>
+
+        <div class="prose">
+          <Content components={{ Callout }} />
+        </div>
+
+        <div class="guide-signoff">
+          <div class="guide-signoff__text">
+            <span class="eyebrow">End of guide</span>
+            <p>
+              Still unsure? Your District Legal Services Authority can give you free advice, and
+              the National Legal Services Authority helpline is <a href="tel:15100">15100</a>.
+            </p>
+          </div>
+          <a class="btn btn--ghost btn--sm" href="/guides">
+            All guides <Icon name="arrow" size={16} />
+          </a>
+        </div>
+      </div>
+
+      <aside class="guide-aside" aria-label="Guide summary and contents">
+        <div class="aside-inner">
+          {
+            guide.data.pocket.length > 0 && (
+              <section class="pocket">
+                <div class="pocket__head">
+                  <h2 class="pocket__title">The pocket version</h2>
+                  <span class="pocket__count">{guide.data.pocket.length}</span>
+                </div>
+                <ul role="list">
+                  {guide.data.pocket.map((item) => (
+                    <li>
+                      <Icon name="check" size={14} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
+
+          {
+            toc.length > 1 && (
+              <nav class="toc" aria-label="On this page">
+                <h2 class="aside-label">On this page</h2>
+                <ol role="list">
+                  {toc.map((heading) => (
+                    <li class:list={[{ 'toc--sub': heading.depth === 3 }]}>
+                      <a href={`#${heading.slug}`} data-toc-link={heading.slug}>
+                        {heading.text}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )
+          }
+
+          {
+            guide.data.sources.length > 0 && (
+              <section class="sources">
+                <h2 class="aside-label">Sources & further reading</h2>
+                <ul role="list">
+                  {guide.data.sources.map((source) => (
+                    <li>
+                      {source.url ? (
+                        <a href={source.url} target="_blank" rel="noopener noreferrer">
+                          {source.label}
+                          <Icon name="external" size={12} />
+                        </a>
+                      ) : (
+                        <span>{source.label}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
+
+          <div class="aside-foot">
+            <span>Reviewed {site.lastReviewed}</span>
+            <span class="aside-foot__rule"></span>
+            <span>Edition 01</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </article>
+
+  <nav class="container guide-next" aria-label="More guides">
+    {
+      prev ? (
+        <a href={`/guides/${prev.id}/`} class="guide-next__card">
+          <span class="guide-next__dir">← Previous</span>
+          <span class="guide-next__title">{prev.data.title}</span>
+          <span class="guide-next__topic">{topicMap[prev.data.topic].name}</span>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      next ? (
+        <a href={`/guides/${next.id}/`} class="guide-next__card guide-next__card--right">
+          <span class="guide-next__dir">Next →</span>
+          <span class="guide-next__title">{next.data.title}</span>
+          <span class="guide-next__topic">{topicMap[next.data.topic].name}</span>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+  </nav>
+
+  <div class="container guide-disclaimer">
+    <Icon name="info" size={18} />
+    <p>
+      <strong>This is general information, not legal advice.</strong> It does not create a
+      lawyer–client relationship. Laws, procedures, and fees change, and your facts may need a
+      different answer. For advice on your situation, speak to a qualified advocate or your
+      District Legal Services Authority.
+      <a href="/disclaimer">Read the full disclaimer</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: clamp(2rem, 4vw, 3rem);
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .breadcrumb a {
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .breadcrumb span {
+    color: var(--ink-soft);
+    opacity: 0.5;
+  }
+
+  .guide-head {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 88% 8%, var(--wash) 0%, transparent 34%),
+      linear-gradient(to bottom, color-mix(in srgb, var(--wash) 55%, var(--paper)), var(--paper));
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .guide-head::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--topic);
+  }
+
+  .guide-head__grid {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .guide-head__topic {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.6rem;
+    background: var(--topic);
+    color: var(--paper-bright);
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .guide-head h1 {
+    max-width: 17ch;
+    margin-top: 1.1rem;
+    font-size: clamp(2.5rem, 5.5vw, 5rem);
+    letter-spacing: -0.045em;
+    line-height: 0.96;
+  }
+
+  .guide-head__dek {
+    max-width: 48ch;
+    margin-top: 1.1rem;
+    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .guide-head__note {
+    display: none;
+    align-self: end;
+    max-width: 15rem;
+    padding: 1.1rem 1.1rem 1.2rem;
+    background: var(--paper-bright);
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--topic);
+    box-shadow: 4px 4px 0 var(--line);
+    transform: rotate(1.2deg);
+  }
+
+  .guide-head__note .stamp {
+    color: var(--topic);
+    font-size: 0.55rem;
+    padding: 0.3rem 0.45rem;
+  }
+
+  .guide-head__note p {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .guide-head__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+
+  .guide-head__meta > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .guide-head__mark {
+    position: absolute;
+    right: 2%;
+    bottom: -0.28em;
+    font-family: var(--font-body);
+    font-size: clamp(12rem, 28vw, 26rem);
+    line-height: 1;
+    color: var(--topic);
+    opacity: 0.055;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .guide-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .guide-main {
+    min-width: 0;
+  }
+
+  .short-version {
+    position: relative;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    padding: 1.4rem 1.5rem 1.6rem;
+    background: var(--ink);
+    color: var(--paper);
+    border-left: 5px solid var(--blue);
+    box-shadow: 6px 6px 0 var(--paper-deep);
+  }
+
+  .short-version__label {
+    display: block;
+    margin-bottom: 0.7rem;
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #a9b6ff;
+  }
+
+  .short-version p {
+    font-family: var(--font-body);
+    font-size: clamp(1.1rem, 1.02rem + 0.3vw, 1.32rem);
+    line-height: 1.5;
+    color: var(--paper-bright);
+  }
+
+  .prose {
+    counter-reset: section;
+  }
+
+  .guide-signoff {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 1.6rem;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .guide-signoff__text {
+    max-width: 34rem;
+  }
+
+  .guide-signoff__text p {
+    margin-top: 0.6rem;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+
+  .guide-signoff__text a {
+    color: var(--blue-deep);
+    font-weight: 600;
+  }
+
+  .guide-aside {
+    order: -1;
+  }
+
+  .aside-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .pocket {
+    padding: 1.15rem 1.2rem 1.3rem;
+    background: var(--paper-bright);
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--red);
+  }
+
+  .pocket__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .pocket__title {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .pocket__count {
+    display: grid;
+    place-items: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper-bright);
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
+    font-weight: 700;
+  }
+
+  .pocket ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .pocket li {
+    display: flex;
+    gap: 0.55rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .pocket li svg {
+    flex: none;
+    margin-top: 0.28rem;
+    color: var(--green);
+  }
+
+  .aside-label {
+    margin-bottom: 0.8rem;
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--line-strong);
+  }
+
+  .toc li a {
+    display: block;
+    padding: 0.34rem 0 0.34rem 0.8rem;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    font-family: var(--font-ui);
+    font-size: 0.76rem;
+    line-height: 1.35;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .toc li a:hover {
+    color: var(--ink);
+  }
+
+  .toc li a.is-active {
+    color: var(--blue-deep);
+    border-left-color: var(--blue);
+    font-weight: 600;
+  }
+
+  .toc .toc--sub a {
+    padding-left: 1.5rem;
+    font-size: 0.71rem;
+    opacity: 0.85;
+  }
+
+  .sources ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sources li {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+
+  .sources a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .sources a:hover {
+    color: var(--blue-deep);
+    border-color: var(--blue);
+  }
+
+  .sources svg {
+    flex: none;
+    opacity: 0.6;
+  }
+
+  .aside-foot {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-ui);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .aside-foot__rule {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .guide-next {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .guide-next__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.2rem 1.3rem;
+    background: var(--paper-bright);
+    border: 1px solid var(--line-strong);
+    text-decoration: none;
+    transition:
+      transform 0.2s var(--ease),
+      box-shadow 0.2s var(--ease);
+  }
+
+  .guide-next__card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-hard);
+  }
+
+  .guide-next__card--right {
+    text-align: right;
+  }
+
+  .guide-next__dir {
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .guide-next__title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .guide-next__topic {
+    font-family: var(--font-ui);
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+  }
+
+  .guide-disclaimer {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding-block: 1.5rem 2.5rem;
+    border-top: 1px solid var(--line-strong);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .guide-disclaimer svg {
+    flex: none;
+    margin-top: 0.15rem;
+    color: var(--red);
+  }
+
+  .guide-disclaimer p {
+    max-width: 78ch;
+  }
+
+  .guide-disclaimer strong {
+    color: var(--ink);
+  }
+
+  .guide-disclaimer a {
+    color: var(--blue-deep);
+    font-weight: 600;
+  }
+
+  @media (min-width: 900px) {
+    .guide-head__grid {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+
+    .guide-head__note {
+      display: block;
+    }
+
+    .guide-body {
+      grid-template-columns: minmax(0, 1fr) 17rem;
+    }
+
+    .guide-aside {
+      order: 0;
+    }
+
+    .aside-inner {
+      position: sticky;
+      top: 7rem;
+      max-height: calc(100vh - 8rem);
+      overflow-y: auto;
+      padding-right: 0.4rem;
+      scrollbar-width: thin;
+    }
+
+    .guide-next {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1120px) {
+    .guide-body {
+      grid-template-columns: minmax(0, 1fr) 19rem;
+      gap: 5.5rem;
+    }
+  }
+</style>
+
+<script>
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
+  const headings = links
+    .map((link) => {
+      const id = link.dataset.tocLink;
+      const el = id ? document.getElementById(id) : null;
+      return el ? { link, el } : null;
+    })
+    .filter((item): item is { link: HTMLAnchorElement; el: HTMLElement } => Boolean(item));
+
+  if (headings.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const match = headings.find((item) => item.el === entry.target);
+          if (!match) continue;
+          links.forEach((link) => link.classList.remove('is-active'));
+          match.link.classList.add('is-active');
+        }
+      },
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 },
+    );
+
+    headings.forEach((item) => observer.observe(item.el));
+  }
+</script>

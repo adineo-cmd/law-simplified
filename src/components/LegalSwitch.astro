@@ -1,0 +1,369 @@
+---
+const examples = [
+  {
+    tab: 'Deposit',
+    clause: 'Clause 14 · Refund',
+    legalese:
+      'The Lessor shall be entitled to forfeit the whole of the security deposit <mark>towards painting, cleaning and other incidental expenses</mark>, and the Lessee shall have no claim thereto.',
+    plain:
+      'Your landlord can keep your deposit only if the agreement allows it — and only for actual dues or damage. “Incidental expenses” is not a magic phrase that turns your money into theirs.',
+    note: 'Ask for an itemised statement with bills.',
+  },
+  {
+    tab: 'Salary',
+    clause: 'Offer letter · Payment',
+    legalese:
+      'The Employee shall have no claim to remuneration <mark>until reconciliation of accounts is completed</mark> by the Finance Department, which shall be done in due course.',
+    plain:
+      '“Due course” is not a pay date. Your salary is a debt, not a favour. Ask in writing for the amount, the credit date, and the reason for the delay — then keep the paper trail.',
+    note: 'A written email is the first exhibit.',
+  },
+  {
+    tab: 'FIR',
+    clause: 'Police station · Front desk',
+    legalese:
+      'The informant is <mark>directed to reduce the grievance in writing</mark> and deposit the same for such action as may be deemed fit at a later stage.',
+    plain:
+      'For a cognizable offence, the police must register an FIR and give you a free copy. If they refuse, ask for the refusal in writing and escalate — a complaint is not a favour.',
+    note: 'You can file a Zero FIR at any station.',
+  },
+];
+---
+
+<div class="legal-switch" data-legal-switch>
+  <div class="legal-switch__sheet">
+    <div class="legal-switch__top">
+      <span class="legal-switch__exhibit">Exhibit A</span>
+      <span class="stamp legal-switch__stamp">Annotated</span>
+    </div>
+
+    <div class="legal-switch__panels">
+      {
+        examples.map((example, i) => (
+          <div
+            class="slide"
+            id={`legal-slide-${i}`}
+            role="tabpanel"
+            aria-labelledby={`legal-tab-${i}`}
+            data-slide
+            hidden={i !== 0}
+          >
+            <div class="slide__meta">
+              <span class="slide__label">What it says</span>
+              <span class="slide__clause">{example.clause}</span>
+            </div>
+            <p class="slide__legalese" set:html={example.legalese} />
+            <div class="slide__connector" aria-hidden="true">
+              <span class="slide__connector-line" />
+              <span class="slide__connector-label">In English</span>
+            </div>
+            <p class="slide__plain">{example.plain}</p>
+            <p class="slide__note">{example.note}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="legal-switch__tabs" role="tablist" aria-label="Example clauses">
+      {
+        examples.map((example, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`legal-tab-${i}`}
+            aria-controls={`legal-slide-${i}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            class:list={['legal-switch__tab', { 'is-active': i === 0 }]}
+            data-tab
+          >
+            <span class="legal-switch__tab-num">{String(i + 1).padStart(2, '0')}</span>
+            {example.tab}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <p class="legal-switch__caption">
+    <span aria-hidden="true">↳</span> Three clauses, translated. No law degree required.
+  </p>
+</div>
+
+<style>
+  .legal-switch {
+    position: relative;
+    width: 100%;
+    max-width: 30rem;
+    margin-inline: auto;
+  }
+
+  .legal-switch__sheet {
+    position: relative;
+    background: var(--paper-bright);
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    box-shadow: 9px 9px 0 var(--ink);
+    padding: 1.1rem 1.15rem 1.15rem;
+    transform: rotate(-1.1deg);
+    transition: transform 0.4s var(--ease);
+  }
+
+  .legal-switch:hover .legal-switch__sheet {
+    transform: rotate(0deg);
+  }
+
+  .legal-switch__sheet::before {
+    content: '';
+    position: absolute;
+    top: -0.55rem;
+    left: 2.4rem;
+    width: 5.2rem;
+    height: 1.15rem;
+    background: rgba(245, 239, 217, 0.55);
+    border: 1px solid rgba(18, 17, 15, 0.12);
+    transform: rotate(-3deg);
+    backdrop-filter: blur(1px);
+  }
+
+  .legal-switch__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .legal-switch__exhibit {
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .legal-switch__stamp {
+    color: var(--red);
+    font-size: 0.55rem;
+    padding: 0.3rem 0.45rem;
+    transform: rotate(3deg);
+  }
+
+  .legal-switch__panels {
+    position: relative;
+    padding-top: 1.1rem;
+    min-height: 19.5rem;
+  }
+
+  .slide[hidden] {
+    display: none;
+  }
+
+  .slide {
+    animation: slide-in 0.32s var(--ease);
+  }
+
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .slide__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .slide__label {
+    font-family: var(--font-ui);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+
+  .slide__clause {
+    font-family: var(--font-ui);
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+
+  .slide__legalese {
+    font-family: var(--font-ui);
+    font-size: 0.83rem;
+    line-height: 1.6;
+    letter-spacing: 0.005em;
+    color: var(--ink-soft);
+  }
+
+  .slide__legalese :global(mark) {
+    background: transparent;
+    color: var(--ink);
+    border-bottom: 2px solid var(--red);
+    padding-bottom: 0.08em;
+  }
+
+  .slide__connector {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-block: 0.85rem;
+  }
+
+  .slide__connector-line {
+    width: 1.7rem;
+    height: 1.7rem;
+    flex: none;
+    border-left: 1.5px solid var(--red);
+    border-bottom: 1.5px solid var(--red);
+    border-bottom-left-radius: 0.55rem;
+  }
+
+  .slide__connector-label {
+    font-family: var(--font-ui);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .slide__plain {
+    font-family: var(--font-body);
+    font-size: 1.02rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .slide__note {
+    margin-top: 0.7rem;
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--blue-deep);
+  }
+
+  .slide__note::before {
+    content: '✎ ';
+    font-style: normal;
+    color: var(--red);
+  }
+
+  .legal-switch__tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.35rem;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .legal-switch__tab {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    padding: 0.5rem 0.45rem;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    text-align: left;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .legal-switch__tab:hover {
+    background: var(--paper);
+  }
+
+  .legal-switch__tab.is-active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .legal-switch__tab-num {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    opacity: 0.55;
+  }
+
+  .legal-switch__caption {
+    margin-top: 1.3rem;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  .legal-switch__caption span {
+    color: var(--red);
+    margin-right: 0.2rem;
+  }
+
+  @media (min-width: 1000px) {
+    .legal-switch {
+      max-width: 31rem;
+      margin-right: 0;
+    }
+
+    .legal-switch__sheet {
+      padding: 1.25rem 1.35rem 1.25rem;
+    }
+
+    .legal-switch__panels {
+      min-height: 20.5rem;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-legal-switch]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tab]'));
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+
+    function activate(index: number) {
+      tabs.forEach((tab, i) => {
+        const active = i === index;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      slides.forEach((slide, i) => {
+        slide.hidden = i !== index;
+      });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', (event) => {
+        let next = index;
+        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+        else return;
+        event.preventDefault();
+        activate(next);
+        tabs[next].focus();
+      });
+    });
+  });
+</script>

@@ -1,0 +1,374 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { getCollection } from 'astro:content';
+import { topics } from '../../data/topics';
+
+const guides = await getCollection('guides');
+const byOrder = [...guides].sort((a, b) => a.data.order - b.data.order);
+const guidesFor = (id: string) => byOrder.filter((guide) => guide.data.topic === id);
+---
+
+<BaseLayout
+  title="Topics"
+  description="Browse Law, Simplified. by situation: consumer, housing, work, digital, and civic guides to Indian law."
+>
+  <header class="topics-head">
+    <div class="container">
+      <p class="eyebrow">The map · Five situations</p>
+      <div class="topics-head__grid">
+        <h1>Five ways<br />the law <span class="italic">shows up.</span></h1>
+        <div class="topics-head__aside">
+          <p>
+            Most legal problems are not “legal problems” at first. They are a refund, a deposit, a
+            payslip, a link, a desk that will not file your complaint. Start with the situation.
+          </p>
+          <div class="topics-head__meta">
+            <span>{topics.length} topics</span>
+            <span class="meta__dot" aria-hidden="true"></span>
+            <span>{guides.length} guides</span>
+            <span class="meta__dot" aria-hidden="true"></span>
+            <span>India</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="topics-body">
+    <div class="container">
+      {
+        topics.map((topic, index) => {
+          const topicGuides = guidesFor(topic.id);
+          return (
+            <article
+              class="topic-block"
+              style={`--topic:${topic.color};--wash:${topic.wash}`}
+              id={topic.id}
+            >
+              <div class="topic-block__intro">
+                <div class="topic-block__top">
+                  <span class="topic-block__num">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="topic-block__icon"><Icon name={topic.icon} size={26} /></span>
+                </div>
+                <h2>{topic.name}</h2>
+                <p class="topic-block__desc">{topic.description}</p>
+                <a class="topic-block__link" href={`/topics/${topic.id}`}>
+                  Explore {topic.name.toLowerCase()} <Icon name="arrow" size={16} />
+                </a>
+              </div>
+
+              <div class="topic-block__guides">
+                <p class="topic-block__label">
+                  {String(topicGuides.length).padStart(2, '0')} {topicGuides.length === 1 ? 'guide' : 'guides'}
+                </p>
+                <ul role="list">
+                  {topicGuides.map((guide) => (
+                    <li>
+                      <a href={`/guides/${guide.id}/`}>
+                        <span class="topic-block__guide-title">{guide.data.title}</span>
+                        <span class="topic-block__guide-meta">{guide.data.readTime} min</span>
+                        <Icon name="arrow-up-right" size={16} />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <section class="topics-foot">
+    <div class="container topics-foot__inner">
+      <div>
+        <p class="eyebrow eyebrow--light">Still not sure?</p>
+        <h2>Tell us what happened.<br /><span class="italic">We’ll point you to the page.</span></h2>
+      </div>
+      <div class="topics-foot__actions">
+        <button type="button" class="btn btn--paper" data-search-open>
+          <Icon name="search" size={17} /> Search the guide
+        </button>
+        <a class="topics-foot__phone" href="tel:15100">Free legal aid: 15100</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .topics-head {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 4vw, 3.5rem);
+    border-bottom: 1.5px solid var(--ink);
+    background:
+      radial-gradient(circle at 85% 15%, rgba(31, 60, 255, 0.07), transparent 28%),
+      var(--paper);
+  }
+
+  .topics-head h1 {
+    margin-top: 1rem;
+    font-size: clamp(2.8rem, 7.5vw, 6.2rem);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+  }
+
+  .topics-head__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .topics-head__aside {
+    max-width: 28rem;
+  }
+
+  .topics-head__aside p {
+    color: var(--ink-soft);
+    line-height: 1.62;
+  }
+
+  .topics-head__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 1.2rem;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .topics-body {
+    padding-block: clamp(1rem, 2vw, 2rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .topic-block {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-block: clamp(2.2rem, 4vw, 3.4rem);
+    border-bottom: 1px solid var(--line-strong);
+    border-top: 3px solid var(--topic);
+    background: linear-gradient(100deg, var(--wash) 0%, transparent 55%);
+  }
+
+  .topic-block:first-child {
+    border-top-width: 4px;
+  }
+
+  .topic-block__top {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .topic-block__num {
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--topic);
+  }
+
+  .topic-block__icon {
+    display: grid;
+    place-items: center;
+    width: 2.7rem;
+    height: 2.7rem;
+    border: 1.5px solid var(--topic);
+    border-radius: 50%;
+    color: var(--topic);
+  }
+
+  .topic-block h2 {
+    margin-top: 0.9rem;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    letter-spacing: -0.045em;
+  }
+
+  .topic-block__desc {
+    max-width: 30rem;
+    margin-top: 0.8rem;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .topic-block__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.2rem;
+    font-family: var(--font-ui);
+    font-size: 0.74rem;
+    font-weight: 650;
+    letter-spacing: 0.03em;
+    color: var(--topic);
+    text-decoration: none;
+    border-bottom: 1.5px solid currentColor;
+    padding-bottom: 0.18rem;
+  }
+
+  .topic-block__link svg {
+    transition: transform 0.2s var(--ease);
+  }
+
+  .topic-block__link:hover svg {
+    transform: translateX(3px);
+  }
+
+  .topic-block__label {
+    margin-bottom: 0.7rem;
+    font-family: var(--font-ui);
+    font-size: 0.6rem;
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .topic-block__guides ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .topic-block__guides li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .topic-block__guides li a {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.8rem 0.2rem;
+    text-decoration: none;
+    transition: padding 0.2s var(--ease);
+  }
+
+  .topic-block__guides li a:hover {
+    padding-left: 0.6rem;
+  }
+
+  .topic-block__guide-title {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .topic-block__guides li a:hover .topic-block__guide-title {
+    color: var(--topic);
+  }
+
+  .topic-block__guide-meta {
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .topic-block__guides li a svg {
+    flex: none;
+    color: var(--topic);
+    opacity: 0;
+    transform: translate(-3px, 3px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.2s var(--ease);
+  }
+
+  .topic-block__guides li a:hover svg {
+    opacity: 1;
+    transform: none;
+  }
+
+  .topics-foot {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background: var(--ink);
+    color: var(--paper-bright);
+  }
+
+  .topics-foot__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .eyebrow--light {
+    color: rgba(255, 253, 245, 0.6);
+  }
+
+  .eyebrow--light::before {
+    background: var(--paper-bright);
+  }
+
+  .topics-foot h2 {
+    margin-top: 0.8rem;
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+    line-height: 0.95;
+  }
+
+  .topics-foot h2 .italic {
+    color: rgba(255, 253, 245, 0.62);
+  }
+
+  .topics-foot__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.4rem;
+  }
+
+  .topics-foot__phone {
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--paper-bright);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 253, 245, 0.4);
+    padding-bottom: 0.2rem;
+  }
+
+  .topics-foot__phone:hover {
+    border-color: var(--paper-bright);
+  }
+
+  @media (min-width: 700px) {
+    .topics-head__grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: end;
+      gap: 3rem;
+    }
+
+    .topic-block {
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: clamp(2rem, 5vw, 5rem);
+      align-items: start;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .topics-head__grid {
+      grid-template-columns: 1.35fr 0.65fr;
+    }
+
+    .topic-block {
+      grid-template-columns: 0.8fr 1.2fr;
+      padding-block: 3.5rem;
+    }
+
+    .topics-foot__inner {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+  }
+</style>
