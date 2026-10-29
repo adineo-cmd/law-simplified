@@ -6,7 +6,9 @@ export type GlossaryCategory =
   | 'Work'
   | 'Rights'
   | 'Documents'
-  | 'Digital';
+  | 'Digital'
+  | 'Family'
+  | 'Money';
 
 export interface GlossaryTerm {
   term: string;
@@ -442,6 +444,58 @@ export const glossary: GlossaryTerm[] = [
       'A bank-led reversal of a card or UPI payment — for non-delivery or fraud — raised with your bank, independent of the seller’s own refund process.',
     category: 'Digital',
   },
+  {
+    term: 'Maintenance',
+    plain:
+      'A court-ordered allowance for a spouse, children, or parents who cannot maintain themselves — claimable while the marriage subsists, not only after divorce.',
+    category: 'Family',
+    seeAlso: 'Maintenance claims guide',
+  },
+  {
+    term: 'Stridhan',
+    plain:
+      'The property, gifts and money that belong to a woman in her own right — before, during and after marriage. It stays hers absolutely, and its refusal back is recoverable.',
+    category: 'Family',
+  },
+  {
+    term: 'Protection order',
+    plain:
+      'A magistrate’s order under the DV Act forbidding the respondent from abusing, contacting, or approaching you. Breach of it is a criminal offence.',
+    category: 'Family',
+  },
+  {
+    term: 'Residence order',
+    plain:
+      'A DV Act order securing your right to live in the shared household — even one owned by the husband or his family — or directing alternative accommodation.',
+    category: 'Family',
+    seeAlso: 'Eviction',
+  },
+  {
+    term: 'Mutual consent divorce',
+    plain:
+      'Divorce by joint petition where both spouses agree on the end and the terms: custody, money, articles. Two court statements with a cooling period between — waivable in settled cases.',
+    category: 'Family',
+  },
+  {
+    term: 'SARFAESI',
+    plain:
+      'The Act that lets banks enforce secured loans without a civil suit — through a 60-day demand notice, possession and sale, each step with its own notices and appeal rights.',
+    category: 'Court',
+    seeAlso: 'MACT',
+  },
+  {
+    term: 'DRT',
+    plain:
+      'Debts Recovery Tribunal — the forum where a borrower appeals a bank’s enforcement action, within 45 days, on a statutory pre-deposit.',
+    category: 'Court',
+    seeAlso: 'SARFAESI',
+  },
+  {
+    term: 'Credit report',
+    plain:
+      'The file bureaus like CIBIL keep on your loans, built from what lenders report monthly. Wrong entries are disputed with the bureau — but corrected by the lender at the source.',
+    category: 'Money',
+  },
 ];
 
 export const glossaryCategories: GlossaryCategory[] = [
@@ -453,4 +507,6 @@ export const glossaryCategories: GlossaryCategory[] = [
   'Rights',
   'Documents',
   'Digital',
+  'Family',
+  'Money',
 ];

@@ -1,4 +1,4 @@
-export type TopicId = 'consumer' | 'housing' | 'work' | 'digital' | 'civic';
+export type TopicId = 'consumer' | 'housing' | 'work' | 'digital' | 'civic' | 'family' | 'money';
 
 export interface Topic {
   id: TopicId;
@@ -7,7 +7,7 @@ export interface Topic {
   description: string;
   color: string;
   wash: string;
-  icon: 'bag' | 'home' | 'briefcase' | 'signal' | 'flag';
+  icon: 'bag' | 'home' | 'briefcase' | 'signal' | 'flag' | 'heart' | 'coins';
 }
 
 export const topics: Topic[] = [
@@ -60,6 +60,26 @@ export const topics: Topic[] = [
     color: '#B36B00',
     wash: '#FFF0CC',
     icon: 'flag',
+  },
+  {
+    id: 'family',
+    name: 'Family',
+    short: 'Marriage, maintenance, safety at home',
+    description:
+      'When home is the problem: maintenance, protection orders, divorce, and the money the law says a household owes its own.',
+    color: '#C2417A',
+    wash: '#FBE3EE',
+    icon: 'heart',
+  },
+  {
+    id: 'money',
+    name: 'Money & Debt',
+    short: 'Loans, recovery agents, credit reports',
+    description:
+      'The loan you took, the agents who call, the credit score that follows you — and the notices that come before a recovery.',
+    color: '#0E7490',
+    wash: '#DFF3F7',
+    icon: 'coins',
   },
 ];
 

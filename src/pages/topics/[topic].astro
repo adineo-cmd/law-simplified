@@ -4,6 +4,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import { topics } from '../../data/topics';
+import { topicFaqList } from '../../data/faqs';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const guides = await getCollection('guides');
@@ -27,6 +28,7 @@ interface Props {
 const { topic, guides } = Astro.props;
 const related = topics.filter((item) => item.id !== topic.id);
 const total = guides.length;
+const faq = topicFaqList(topic.id);
 ---
 
 <BaseLayout
@@ -91,6 +93,26 @@ const total = guides.length;
             </p>
             <a class="btn btn--ghost btn--sm" href="/guides">Browse all guides</a>
           </div>
+        )
+      }
+
+      {
+        faq.length > 0 && (
+          <section class="topic-faq" aria-labelledby="faq-heading">
+            <div class="topic-faq__head">
+              <h2 id="faq-heading">Questions this topic gets asked</h2>
+              <p>Short answers, with the guide that carries the detail.</p>
+            </div>
+            {faq.map((item) => (
+              <details class="faq">
+                <summary>
+                  <span class="faq__q">{item.q}</span>
+                  <span class="faq__toggle" aria-hidden="true"><Icon name="chevron-down" size={17} /></span>
+                </summary>
+                <p class="faq__a">{item.a}</p>
+              </details>
+            ))}
+          </section>
         )
       }
 
@@ -383,6 +405,73 @@ const total = guides.length;
     padding: 4rem 2rem;
     border: 1px dashed var(--line-strong);
     text-align: center;
+  }
+
+  .topic-faq {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .topic-faq__head h2 {
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    letter-spacing: -0.03em;
+  }
+
+  .topic-faq__head p {
+    margin-top: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  .topic-faq details.faq {
+    margin-top: 0.7rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-bright);
+  }
+
+  .topic-faq details.faq:first-of-type {
+    margin-top: 1.3rem;
+  }
+
+  .topic-faq summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.1rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 620;
+    letter-spacing: -0.02em;
+  }
+
+  .topic-faq summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .topic-faq summary:hover {
+    color: var(--topic);
+  }
+
+  .topic-faq .faq__toggle {
+    flex: none;
+    display: grid;
+    place-items: center;
+    color: var(--topic);
+    transition: transform 0.2s var(--ease);
+  }
+
+  .topic-faq details[open] .faq__toggle {
+    transform: rotate(180deg);
+  }
+
+  .topic-faq .faq__a {
+    padding: 0 1.1rem 1rem;
+    max-width: 62rem;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
   }
 
   .topic-empty h2 {
