@@ -334,6 +334,114 @@ export const glossary: GlossaryTerm[] = [
       'An FIR registered at any police station, even one without jurisdiction, so the complaint is not lost. It is then transferred to the correct station.',
     category: 'Police',
   },
+  {
+    term: 'Bailable offence',
+    plain:
+      'An offence where the accused has a right to be released on bail — the police or court grants it as of right, unlike non-bailable offences where bail is discretionary.',
+    category: 'Police',
+  },
+  {
+    term: 'Charge sheet',
+    plain:
+      'The final police report filed in court after investigation, listing the evidence against the accused and the offences alleged. The trial happens on the charge sheet, not on the FIR.',
+    category: 'Police',
+  },
+  {
+    term: 'Closure report',
+    plain:
+      'A police report saying the investigation found no case — also called a final report. The complainant can contest it, and the court can order further investigation or take cognizance anyway.',
+    category: 'Police',
+  },
+  {
+    term: 'Injunction',
+    plain:
+      'A court order telling someone to do, or stop doing, a specific thing — for example, to stop construction or not to publish material. Breaking it is contempt.',
+    category: 'Court',
+    seeAlso: 'Stay order',
+  },
+  {
+    term: 'Stay order',
+    plain:
+      'An order pausing proceedings or the effect of a decision — often an appeal — so nothing is executed while the higher court examines it.',
+    category: 'Court',
+    seeAlso: 'Injunction',
+  },
+  {
+    term: 'Ombudsman',
+    plain:
+      'A free, documents-based dispute official for a sector — India has ombudsmen for insurance, banking, and income tax. Their awards bind the company (within limits) if you accept them.',
+    category: 'Consumer',
+    seeAlso: 'Consumer dispute',
+  },
+  {
+    term: 'Cheque bounce',
+    plain:
+      'The common name for dishonour of a cheque under Section 138 of the Negotiable Instruments Act — a criminal offence when the drawer does not pay within 15 days of a written demand notice.',
+    category: 'Court',
+    seeAlso: 'Notice',
+  },
+  {
+    term: 'MACT',
+    plain:
+      'Motor Accidents Claims Tribunal — the special court that decides compensation claims after road accidents, against the driver, owner, or insurer.',
+    category: 'Court',
+  },
+  {
+    term: 'PIL',
+    plain:
+      'Public Interest Litigation — a petition filed in the higher courts for a public cause rather than a personal grievance, with relaxed standing rules.',
+    category: 'Rights',
+    seeAlso: 'Writ',
+  },
+  {
+    term: 'Gratuity',
+    plain:
+      'A statutory lump sum an employee with five years of continuous service receives on leaving — 15 days of wages per completed year under the Payment of Gratuity Act.',
+    category: 'Work',
+  },
+  {
+    term: 'Full and final settlement',
+    plain:
+      'The last payroll at exit: unpaid salary, leave encashment, and reimbursements. Signing a receipt marked "full and final" can bar later claims, so never accept less than what is due silently.',
+    category: 'Work',
+  },
+  {
+    term: 'Relieving letter',
+    plain:
+      'The document an employer issues when you formally leave, confirming your tenure and last working day. Background verification at your next job usually requires it.',
+    category: 'Work',
+  },
+  {
+    term: 'Eviction',
+    plain:
+      'The legal removal of a tenant — through notice and a rent authority or court order. Changing the locks or cutting utilities is not eviction; it is an unlawful lockout.',
+    category: 'Housing',
+    seeAlso: 'Security deposit',
+  },
+  {
+    term: 'Stamp duty',
+    plain:
+      'The state tax paid on documents like agreements and sale deeds. An under-stamped or unregistered document that requires registration can face problems when enforced in court.',
+    category: 'Housing',
+  },
+  {
+    term: 'Leave and licence',
+    plain:
+      'The agreement form used for most urban renting — a licence to occupy, not a lease transferring interest. States regulate it differently; many now require registration even for 11-month agreements.',
+    category: 'Housing',
+  },
+  {
+    term: 'Data fiduciary',
+    plain:
+      'Under the DPDP Act, 2023, the entity that decides how your personal data is processed — the company, app, or platform. You are the data principal.',
+    category: 'Digital',
+  },
+  {
+    term: 'Chargeback',
+    plain:
+      'A bank-led reversal of a card or UPI payment — for non-delivery or fraud — raised with your bank, independent of the seller’s own refund process.',
+    category: 'Digital',
+  },
 ];
 
 export const glossaryCategories: GlossaryCategory[] = [
