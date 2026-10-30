@@ -496,6 +496,68 @@ export const glossary: GlossaryTerm[] = [
       'The file bureaus like CIBIL keep on your loans, built from what lenders report monthly. Wrong entries are disputed with the bureau — but corrected by the lender at the source.',
     category: 'Money',
   },
+  {
+    term: 'Defamation',
+    plain:
+      'A false imputation, published to others, that harms your reputation. Criminal defamation lives in the BNS; civil damages run alongside — and truth and fair comment are the classic defences.',
+    category: 'Digital',
+  },
+  {
+    term: 'Probate',
+    plain:
+      'A court’s certification that a will is genuine. Mandatory only in the Chennai, Kolkata and Mumbai metro areas — elsewhere optional, used when an institution or a dispute demands it.',
+    category: 'Family',
+    seeAlso: 'Succession certificate',
+  },
+  {
+    term: 'Succession certificate',
+    plain:
+      'A court certificate authorising the holder to collect a deceased person’s debts and securities. Different from the legal heir certificate issued by revenue authorities.',
+    category: 'Family',
+    seeAlso: 'Probate',
+  },
+  {
+    term: 'Intestate',
+    plain:
+      'Dying without a valid will — the personal law’s succession formula then divides the estate among classes of heirs, which is rarely what the person would have chosen.',
+    category: 'Family',
+  },
+  {
+    term: 'Legal heir certificate',
+    plain:
+      'The revenue authority’s record of who the deceased’s legal heirs are — the paper banks, employers and housing societies ask for before releasing assets.',
+    category: 'Family',
+  },
+  {
+    term: 'Encumbrance certificate',
+    plain:
+      'The sub-registrar’s list of every registered charge on a property — mortgages, liens, attachments — for the period you request. The quiet check that catches the seller’s forgotten loan.',
+    category: 'Housing',
+  },
+  {
+    term: 'Occupancy certificate',
+    plain:
+      'The municipal authority’s statement that a building matches the approved plan and is fit to occupy. Buying without one means inheriting the regularisation fight.',
+    category: 'Housing',
+  },
+  {
+    term: 'Lis pendens',
+    plain:
+      'A registered notice that a property is the subject of a pending lawsuit. Buying under one means buying into the case.',
+    category: 'Housing',
+  },
+  {
+    term: 'Scrutiny notice',
+    plain:
+      'An income-tax notice (Section 143(2)) that your return has been selected for examination. It has hard deadlines and ends in an assessment order — respond on the portal, with a CA for anything beyond a mismatch.',
+    category: 'Money',
+  },
+  {
+    term: 'Defect liability period',
+    plain:
+      'Under RERA, five years after possession during which the builder must repair structural and workmanship defects reported in writing — free, within 30 days.',
+    category: 'Consumer',
+  },
 ];
 
 export const glossaryCategories: GlossaryCategory[] = [

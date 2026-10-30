@@ -19,8 +19,8 @@ export const site = {
 };
 
 export const stats = [
-  { value: '24', label: 'plain-English guides' },
-  { value: '78', label: 'terms decoded' },
-  { value: '11', label: 'copy-ready templates' },
+  { value: '30', label: 'plain-English guides' },
+  { value: '88', label: 'terms decoded' },
+  { value: '15', label: 'copy-ready templates' },
   { value: '0', label: 'paragraphs of legalese' },
 ];

@@ -1,7 +1,7 @@
 export interface Template {
   id: string;
   title: string;
-  topic: 'consumer' | 'housing' | 'work' | 'digital' | 'civic';
+  topic: 'consumer' | 'housing' | 'work' | 'digital' | 'civic' | 'family' | 'money';
   useWhen: string;
   subject: string;
   body: string;
@@ -423,6 +423,159 @@ Date: [date] [Place: city]`,
       'Take the signature at the time of each payment, not in a batch at year-end — backdated receipts are worth little in a dispute.',
       'For HRA exemption above ₹3,000 per month (₹1 lakh per year), the landlord’s PAN must be reported to your employer; ask early, not in March.',
       'Match every receipt to a payment record — UPI reference or bank entry — so the two corroborate each other.',
+    ],
+  },
+  {
+    id: 'rti-first-appeal',
+    title: 'RTI first appeal',
+    topic: 'civic',
+    useWhen:
+      'The Public Information Officer gave no reply within 30 days, a partial reply, or refused without good grounds — the first appeal goes to that department’s First Appellate Authority.',
+    subject: 'First appeal under Section 19(1) of the RTI Act, 2005 — application no. [number] dated [date]',
+    body: `To,
+The First Appellate Authority
+[Public authority name and address]
+
+Through: The Public Information Officer (CPIO), [public authority]
+
+Subject: First appeal against the CPIO's response to RTI application no. [number] dated [date]
+
+Sir/Madam,
+
+I filed RTI application no. [number] dated [date], seeking [state the information sought in one line]. I received [no reply / a reply dated [date]] which [state the problem: no response / partial disclosure / refusal citing [exemption claimed] / transferred incorrectly].
+
+Grounds of appeal:
+1. [No reply: thirty days have elapsed since the application, without any response or fee demand.]
+2. [Refusal: the exemption cited does not apply — the information concerns public activity and discloses no personal information, third-party data, or listed exemption.]
+3. [Partial reply: the reply addresses [x] but is silent on [y], which was expressly sought in point [n].]
+
+I request that the First Appellate Authority:
+1. Direct the CPIO to provide the complete information sought, free of cost where the reply was delayed beyond the statutory period;
+2. Pass an order within 30 days as required under Section 19(6); and
+3. Where information is wrongly withheld, record reasons for each exemption claimed, per Section 19(5).
+
+Encl: (1) Copy of the RTI application; (2) Postal/courier receipt or portal acknowledgement; (3) Copy of the CPIO reply, if any.
+
+Yours sincerely,
+[Name]
+[Address] [Phone] [Email]
+[Date]`,
+    tips: [
+      'The first appeal is free and goes inside the same department — file within 30 days of the reply date, or of the reply deadline passing.',
+      'Quote your application number and dates precisely; appellate orders turn on the clock, not on adjectives.',
+      'If the first appeal fails or stalls, the second appeal goes to the Information Commission — attach the first appeal order.',
+    ],
+  },
+  {
+    id: 'credit-dispute-letter',
+    title: 'Credit report dispute letter',
+    topic: 'money',
+    useWhen:
+      'Your credit report shows a wrong entry — a closed loan still open, a late mark, a "settled" tag after full payment — and you want the lender to correct its feed.',
+    subject: 'Dispute of inaccurate credit information — loan/account no. [number], bureau report dated [date]',
+    body: `To,
+The Grievance Redressal Officer
+[Bank / NBFC name and address]
+
+Subject: Dispute of inaccurate credit information reported to credit bureaus — loan account no. [number]
+
+Dear Sir/Madam,
+
+I closed the above loan on [date]. [Attach proof: closure letter no. [x] and NOC dated [date] / final statement showing nil dues.] Your monthly reporting to credit bureaus nevertheless continues to show this account as [open / with [n] DPD / "settled"] as of my report dated [date] from [CIBIL/Experian/CRIF/Equifax], a copy of which is enclosed with the disputed entry highlighted.
+
+The entry is inaccurate and is harming my credit profile. I request that you:
+1. Verify your records and correct the reporting to all four credit information companies within 30 days;
+2. Confirm the correction to me in writing with the updated reporting status; and
+3. Where the closure itself was never processed, process it now and issue the closure confirmation.
+
+I have also raised a dispute with [bureau] on [date] (dispute ID [number]) which routes to you for the underlying correction. Failing resolution within 30 days, I will escalate to the RBI Ombudsman under the Reserve Bank — Integrated Ombudsman Scheme, with this letter as the first step of the grievance.
+
+Encl: (1) Bureau report with entry highlighted; (2) Closure letter / NOC; (3) Final statement showing nil dues.
+
+Yours sincerely,
+[Name]
+[Loan account no.] [Mobile] [Email] [Address]`,
+    tips: [
+      'Dispute with the bureau AND the lender — the bureau routes the dispute, but only the lender can correct the feed.',
+      'Attach the closure letter and NOC; if you never collected them, demand them first — they are the case.',
+      'One correction per letter, with the report entry highlighted; compound disputes get compound silences.',
+    ],
+  },
+  {
+    id: 'rera-complaint',
+    title: 'RERA complaint — delayed possession',
+    topic: 'consumer',
+    useWhen:
+      'A RERA-registered builder missed the promised possession date, and you want the delay interest, or refund with interest, from the state authority.',
+    subject: 'Complaint under Section 31 of the RERA Act, 2016 — project [name], RERA registration no. [number]',
+    body: `To,
+The Real Estate Regulatory Authority
+[State]
+
+Subject: Complaint regarding delayed possession — project [name], [village/city, district], RERA regn. no. [number]
+
+Respected Sir/Madam,
+
+I booked unit no. [number] in the above project under agreement for sale dated [date], for a total consideration of ₹[amount], of which I have paid ₹[amount] (proof enclosed). The agreed date of possession is [date] as per the agreement and the date declared in the project's RERA registration.
+
+The promoter has failed to hand over possession by that date. As of [date] the delay is [n] months.
+
+I therefore seek, under Section 18 of the Act, [choose and state one:
+ (a) possession of the unit with interest at the prescribed rate on ₹[amount paid] for every month of delay from [due date] till possession; or
+ (b) refund of the entire amount paid, ₹[amount], together with interest at the prescribed rate from [due date] till repayment.]
+
+The promoter's communications to me (enclosed) [state: admitted the delay on [date] / cited force majeure without any authority extension order for this project / offered possession on [revised date] without interest].
+
+Encl: (1) Agreement for sale; (2) Payment proofs and loan statement; (3) RERA registration printout showing the declared date; (4) Correspondence with the promoter; (5) Interest computation.
+
+Yours faithfully,
+[Name]
+[Address] [Phone] [Email] [Date]`,
+    tips: [
+      'Before filing, download your project’s RERA registration page — the declared possession date and any authority extension orders decide the computation.',
+      'Compute the interest yourself at your state’s prescribed rate and attach it; a complaint with the arithmetic is a complaint that can be allowed in one line.',
+      'If the builder faces insolvency proceedings, talk to a lawyer about the NCLT claim window in parallel — the queue fills fast.',
+    ],
+  },
+  {
+    id: 'will-skeleton',
+    title: 'Simple will — skeleton',
+    topic: 'family',
+    useWhen:
+      'You want a plain, valid will for a straightforward estate: one or two properties, bank accounts, and clear beneficiaries. For businesses, contested families, or cross-border assets, use a lawyer.',
+    subject: 'WILL of [your full name]',
+    body: `WILL
+
+I, [full name], son/daughter/wife of [name], aged [age] years, resident of [full address], declare this to be my last Will and Testament, made voluntarily and in sound mind, on this [date]. I hereby revoke all earlier wills and codicils made by me.
+
+1. Executor: I appoint [full name, relation, address] as the sole executor of this Will. If they are unable or unwilling to act, I appoint [second name] as alternate executor.
+
+2. Family details: I am [married/unmarried]; my legal heirs are [list: spouse, children with names and birth years, mother/father if surviving].
+
+3. Assets and bequests:
+   a. I bequeath my house/flat at [full address, with survey/plot number] to [full beneficiary name], absolutely.
+   b. I bequeath my bank account no. [number] with [bank, branch] to [beneficiary], absolutely.
+   c. I bequeath my [fixed deposits / mutual funds / shares held with DP ID no.] to [beneficiary], absolutely.
+   d. My household articles, jewellery (as per the inventory attached as Annexure A), and vehicle(s) shall go to [beneficiary].
+   e. All other assets, movable or immovable, not mentioned above (the residuary estate), I bequeath to [beneficiary], absolutely.
+
+4. If any beneficiary named above predeceases me, their share shall pass to [name/the surviving beneficiaries in equal shares].
+
+5. I state that I own the above assets in my own right, that this Will is made without coercion or undue influence, and that I am of sound mind and health.
+
+IN WITNESS WHEREOF, I have signed this Will on [date] at [place], in the presence of the two attesting witnesses below, who have signed in my presence and in the presence of each other.
+
+Signature of the Testator: ____________________
+[Full name]
+
+Witness 1: Name, address, occupation, signature, date
+Witness 2: Name, address, occupation, signature, date
+
+Annexure A: Inventory of jewellery and articles, with approximate descriptions.`,
+    tips: [
+      'Two witnesses who are NOT beneficiaries — and each sees you sign. The attestation is what makes the will.',
+      'Name people in full and assets by address and number; ambiguity is the only litigator a will needs.',
+      'Registration is optional but worth it for contested estates; store the will where the executor can find it and review it yearly.',
     ],
   },
 ];
