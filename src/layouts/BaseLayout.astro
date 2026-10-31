@@ -22,7 +22,7 @@ const {
 } = Astro.props;
 
 const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://law-simplified.example.com');
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://adineo-cmd.github.io/law-simplified');
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -55,9 +55,9 @@ const jsonLd = {
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/law-simplified/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/law-simplified/favicon.svg" />
+    <link rel="sitemap" href="/law-simplified/sitemap-index.xml" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <slot name="head" />

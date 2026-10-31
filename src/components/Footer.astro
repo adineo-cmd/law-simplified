@@ -9,7 +9,7 @@ const year = new Date().getFullYear();
 <footer class="footer">
   <div class="container footer__top">
     <div class="footer__brand">
-      <a href="/" class="footer__wordmark">Law, Simplified<span>.</span></a>
+      <a href="/law-simplified/" class="footer__wordmark">Law, Simplified<span>.</span></a>
       <p class="footer__tagline">
         The law, minus the legalese. A free field guide for the moments when the fine print
         suddenly matters.
@@ -26,7 +26,7 @@ const year = new Date().getFullYear();
         {site.nav.map((item) => (
           <li><a href={item.href}>{item.label}</a></li>
         ))}
-        <li><a href="/disclaimer">Disclaimer</a></li>
+        <li><a href="/law-simplified/disclaimer">Disclaimer</a></li>
       </ul>
     </div>
 
@@ -34,7 +34,7 @@ const year = new Date().getFullYear();
       <h2 class="footer__heading">By situation</h2>
       <ul role="list">
         {topics.map((topic) => (
-          <li><a href={`/topics/${topic.id}`}>{topic.name}</a></li>
+          <li><a href={`/law-simplified/topics/${topic.id}`}>{topic.name}</a></li>
         ))}
       </ul>
     </div>

@@ -51,9 +51,9 @@ const articleJsonLd = {
     <header class="guide-head" style={`--topic:${topic.color};--wash:${topic.wash}`}>
       <div class="container">
         <nav class="breadcrumb" aria-label="Breadcrumb">
-          <a href="/guides">Guides</a>
+          <a href="/law-simplified/guides">Guides</a>
           <span aria-hidden="true">/</span>
-          <a href={`/topics/${topic.id}`}>{topic.name}</a>
+          <a href={`/law-simplified/topics/${topic.id}`}>{topic.name}</a>
         </nav>
 
         <div class="guide-head__grid">
@@ -129,7 +129,7 @@ const articleJsonLd = {
               the National Legal Services Authority helpline is <a href="tel:15100">15100</a>.
             </p>
           </div>
-          <a class="btn btn--ghost btn--sm" href="/guides">
+          <a class="btn btn--ghost btn--sm" href="/law-simplified/guides">
             All guides <Icon name="arrow" size={16} />
           </a>
         </div>
@@ -208,7 +208,7 @@ const articleJsonLd = {
   <nav class="container guide-next" aria-label="More guides">
     {
       prev ? (
-        <a href={`/guides/${prev.id}/`} class="guide-next__card">
+        <a href={`/law-simplified/guides/${prev.id}/`} class="guide-next__card">
           <span class="guide-next__dir">← Previous</span>
           <span class="guide-next__title">{prev.data.title}</span>
           <span class="guide-next__topic">{topicMap[prev.data.topic].name}</span>
@@ -219,7 +219,7 @@ const articleJsonLd = {
     }
     {
       next ? (
-        <a href={`/guides/${next.id}/`} class="guide-next__card guide-next__card--right">
+        <a href={`/law-simplified/guides/${next.id}/`} class="guide-next__card guide-next__card--right">
           <span class="guide-next__dir">Next →</span>
           <span class="guide-next__title">{next.data.title}</span>
           <span class="guide-next__topic">{topicMap[next.data.topic].name}</span>
@@ -237,7 +237,7 @@ const articleJsonLd = {
       lawyer–client relationship. Laws, procedures, and fees change, and your facts may need a
       different answer. For advice on your situation, speak to a qualified advocate or your
       District Legal Services Authority.
-      <a href="/disclaimer">Read the full disclaimer</a>
+      <a href="/law-simplified/disclaimer">Read the full disclaimer</a>
     </p>
   </div>
 </BaseLayout>

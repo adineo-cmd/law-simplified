@@ -39,7 +39,7 @@ const faq = topicFaqList(topic.id);
     <div class="container topic-head__inner">
       <div class="topic-head__main">
         <nav class="breadcrumb" aria-label="Breadcrumb">
-          <a href="/topics">Topics</a>
+          <a href="/law-simplified/topics">Topics</a>
           <span aria-hidden="true">/</span>
           <span>{topic.name}</span>
         </nav>
@@ -66,7 +66,7 @@ const faq = topicFaqList(topic.id);
         total > 0 ? (
           <div class="topic-guides">
             {guides.map((guide, i) => (
-              <a href={`/guides/${guide.id}/`} class="topic-guide" style={`--topic:${topic.color}`}>
+              <a href={`/law-simplified/guides/${guide.id}/`} class="topic-guide" style={`--topic:${topic.color}`}>
                 <span class="topic-guide__num">{String(i + 1).padStart(2, '0')}</span>
                 <span class="topic-guide__main">
                   <span class="topic-guide__title">{guide.data.title}</span>
@@ -91,7 +91,7 @@ const faq = topicFaqList(topic.id);
               There is no {topic.name.toLowerCase()} guide yet. In the meantime, search the rest of
               the guide or ask your District Legal Services Authority.
             </p>
-            <a class="btn btn--ghost btn--sm" href="/guides">Browse all guides</a>
+            <a class="btn btn--ghost btn--sm" href="/law-simplified/guides">Browse all guides</a>
           </div>
         )
       }
@@ -126,7 +126,7 @@ const faq = topicFaqList(topic.id);
             line, speak to a qualified advocate or your District Legal Services Authority.
           </p>
         </div>
-        <a class="arrow-link" href="/disclaimer">Full disclaimer <Icon name="arrow" size={15} /></a>
+        <a class="arrow-link" href="/law-simplified/disclaimer">Full disclaimer <Icon name="arrow" size={15} /></a>
       </div>
     </div>
   </section>
@@ -140,7 +140,7 @@ const faq = topicFaqList(topic.id);
       <div class="related__grid">
         {
           related.map((item) => (
-            <a href={`/topics/${item.id}`} class="related-card" style={`--topic:${item.color};--wash:${item.wash}`}>
+            <a href={`/law-simplified/topics/${item.id}`} class="related-card" style={`--topic:${item.color};--wash:${item.wash}`}>
               <span class="related-card__icon"><Icon name={item.icon} size={22} /></span>
               <span class="related-card__name">{item.name}</span>
               <span class="related-card__short">{item.short}</span>

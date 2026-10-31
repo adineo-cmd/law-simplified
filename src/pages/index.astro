@@ -17,10 +17,10 @@ const secondary = featured.slice(1);
 const countFor = (id: string) => guides.filter((guide) => guide.data.topic === id).length;
 
 const quickLinks = [
-  { label: 'Deposit stuck', href: '/guides/security-deposit/' },
-  { label: 'Salary late', href: '/guides/late-salary/' },
-  { label: 'Scam at 11pm', href: '/guides/cyber-fraud/' },
-  { label: 'FIR refused', href: '/guides/fir/' },
+  { label: 'Deposit stuck', href: '/law-simplified/guides/security-deposit/' },
+  { label: 'Salary late', href: '/law-simplified/guides/late-salary/' },
+  { label: 'Scam at 11pm', href: '/law-simplified/guides/cyber-fraud/' },
+  { label: 'FIR refused', href: '/law-simplified/guides/fir/' },
 ];
 
 const glossaryPicks = ['Security deposit', 'Deficiency in service', 'Zero FIR']
@@ -56,7 +56,7 @@ const stats = [
           <a class="btn" href="#topics">
             Find your problem <Icon name="arrow" size={17} />
           </a>
-          <a class="btn btn--ghost" href="/guides">Browse the guides</a>
+          <a class="btn btn--ghost" href="/law-simplified/guides">Browse the guides</a>
         </div>
 
         <div class="hero__quick reveal" style="animation-delay: 0.24s">
@@ -123,7 +123,7 @@ const stats = [
             Pick the situation closest to yours. Every guide starts with the short version, then
             gives you the steps, the words, and the paper trail.
           </p>
-          <a class="arrow-link" href="/topics">
+          <a class="arrow-link" href="/law-simplified/topics">
             All topics <Icon name="arrow" size={15} />
           </a>
         </div>
@@ -158,7 +158,7 @@ const stats = [
             Written as if a friend who happens to be a lawyer is sitting across the table — with
             the citations kept, and the condescension removed.
           </p>
-          <a class="arrow-link" href="/guides">
+          <a class="arrow-link" href="/law-simplified/guides">
             All {guides.length} guides <Icon name="arrow" size={15} />
           </a>
         </div>
@@ -204,7 +204,7 @@ const stats = [
           Sometimes the system moves only when there is paper. Six templates, written in the
           register that gets read: specific, polite, dated, and impossible to ignore.
         </p>
-        <a class="btn btn--paper" href="/toolkit">
+        <a class="btn btn--paper" href="/law-simplified/toolkit">
           Open the toolkit <Icon name="arrow" size={17} />
         </a>
         <p class="toolkit__note">
@@ -221,7 +221,7 @@ const stats = [
           {
             templates.map((template, i) => (
               <li>
-                <a href={`/toolkit#${template.id}`}>
+                <a href={`/law-simplified/toolkit#${template.id}`}>
                   <span class="toolkit__num">{String(i + 1).padStart(2, '0')}</span>
                   <span class="toolkit__name">{template.title}</span>
                   <Icon name="arrow" size={16} />
@@ -248,7 +248,7 @@ const stats = [
             A word you do not recognise is not a word you have to accept. Start with the phrase on
             the letter, then look it up.
           </p>
-          <a class="arrow-link" href="/glossary">
+          <a class="arrow-link" href="/law-simplified/glossary">
             All {glossary.length} terms <Icon name="arrow" size={15} />
           </a>
         </div>
@@ -260,7 +260,7 @@ const stats = [
           </div>
           {
             glossaryPicks.map((entry) => (
-              <a href={`/glossary#term-${entry!.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} class="glossary-item">
+              <a href={`/law-simplified/glossary#term-${entry!.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} class="glossary-item">
                 <span class="glossary-item__term">
                   {entry!.term}
                   <span class="glossary-item__cat">{entry!.category}</span>
@@ -291,7 +291,7 @@ const stats = [
         guide is for.
       </p>
       <div class="closing__actions">
-        <a class="btn btn--paper" href="/guides">Find your guide <Icon name="arrow" size={17} /></a>
+        <a class="btn btn--paper" href="/law-simplified/guides">Find your guide <Icon name="arrow" size={17} /></a>
         <a class="closing__phone" href="tel:15100">
           <Icon name="phone" size={17} />
           Free legal aid: 15100

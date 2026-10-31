@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://law-simplified.example.com/sitemap-index.xml
+Sitemap: https://adineo-cmd.github.io/law-simplified/sitemap-index.xml

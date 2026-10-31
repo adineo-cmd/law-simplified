@@ -53,7 +53,7 @@ const guidesFor = (id: string) => byOrder.filter((guide) => guide.data.topic ===
                 </div>
                 <h2>{topic.name}</h2>
                 <p class="topic-block__desc">{topic.description}</p>
-                <a class="topic-block__link" href={`/topics/${topic.id}`}>
+                <a class="topic-block__link" href={`/law-simplified/topics/${topic.id}`}>
                   Explore {topic.name.toLowerCase()} <Icon name="arrow" size={16} />
                 </a>
               </div>
@@ -65,7 +65,7 @@ const guidesFor = (id: string) => byOrder.filter((guide) => guide.data.topic ===
                 <ul role="list">
                   {topicGuides.map((guide) => (
                     <li>
-                      <a href={`/guides/${guide.id}/`}>
+                      <a href={`/law-simplified/guides/${guide.id}/`}>
                         <span class="topic-block__guide-title">{guide.data.title}</span>
                         <span class="topic-block__guide-meta">{guide.data.readTime} min</span>
                         <Icon name="arrow-up-right" size={16} />

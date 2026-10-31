@@ -3,7 +3,8 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://law-simplified.example.com',
+  site: 'https://adineo-cmd.github.io',
+  base: '/law-simplified/',
   output: 'static',
   integrations: [mdx(), sitemap()],
   prefetch: { prefetchAll: true },
