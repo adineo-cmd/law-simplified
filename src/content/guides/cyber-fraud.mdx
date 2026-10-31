@@ -13,6 +13,22 @@ pocket:
   - "Call your bank, block the card/UPI handle, and get a complaint reference number."
   - "File at cybercrime.gov.in with transaction IDs, screenshots, and the fraudster’s details."
   - "Do not pay a ‘recovery agent’ or click a ‘refund’ link from someone who contacts you after the fraud."
+case: >-
+  Priya in Hyderabad searched for an airline's customer-care number, dialled a fake one, and was talked into a 'verification' flow that moved ₹46,500 out of her account in three UPI transactions on 12 August 2026.
+  She hung up and called 1930 within fifteen minutes, reading out the transaction IDs and the fraudster's UPI handle while the operator logged them.
+  Her bank call came next: card and UPI blocked, dispute registered, reference number saved, followed by her email with the subject line 'Unauthorised/fraudulent transaction — 12 August 2026 — ₹46,500 — UTR' and the screenshots attached.
+  She then filed at cybercrime.gov.in with the chat, the call log, and the bank statement, and shared the acknowledgement number with her bank the same day.
+  When a 'recovery agent' found her on Telegram a week later promising the money back for a 10 per cent fee, she reported him on the same portal instead of paying.
+  The freeze caught about ₹31,000 in the beneficiary account; the rest was gone, which is exactly what the first-hour clock is for.
+situations:
+  - if: "you realise only the next morning that the money moved the night before"
+    do: "Still call 1930 and file at cybercrime.gov.in immediately with the UTRs — late complaints recover less, but the money often sits in mule accounts beyond the first day."
+  - if: "the fraudster is asking for one more payment to 'release' the earlier amount"
+    do: "Stop paying, block the number, and add the new demand to your 1930 and cybercrime.gov.in complaints — it is the same scam continuing, not progress."
+  - if: "a caller claiming to be a 'cyber cell officer' offers to recover your money for a fee"
+    do: "Hang up and verify through the number printed on your card or the official portal — unsolicited recovery offers are the second scam, and no real officer asks for OTPs, screen-sharing, or upfront fees."
+  - if: "your bank rejects the dispute without a clear written reason"
+    do: "Email for the bank's final response with your complaint number, then escalate under the RBI Integrated Ombudsman Scheme with that rejection and your 1930 and cybercrime.gov.in acknowledgements attached."
 sources:
   - label: "National Cyber Crime Reporting Portal"
     url: "https://cybercrime.gov.in/"

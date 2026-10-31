@@ -13,6 +13,17 @@ pocket:
   - "If arrested, ask for the grounds, an arrest memo, a lawyer, and to inform a family member."
   - "You must be produced before a Magistrate within 24 hours."
   - "Women are not to be arrested after sunset and before sunrise except in exceptional cases with special permission."
+case: >-
+  On a March evening in Lucknow, Vikram Sharma was stopped near Hazratganj by two officers who would not say why. He stayed calm, asked if he was free to go and why he was being stopped, noted the badge number of the officer who answered, and texted his brother before his phone was taken. Arrested that night in connection with a neighbour's complaint, he asked for the grounds of arrest, an arrest memo signed by a witness with the time written in, and a call to his family — and got all three. The DLSA duty lawyer met him at his first production, where the magistrate recorded that the 9:40 pm arrest had been followed by production within the 24-hour limit. He received a free copy of the FIR, secured bail that week for the bailable offence, and later filed a written complaint with the Superintendent of Police about the officer who had refused to identify himself, acknowledgement kept. His contemporaneous note — date, time, badge numbers, what was said — is what made both the bail hearing and the complaint straightforward.
+situations:
+  - if: "you are stopped on the street and the officer will not say why"
+    do: "Ask plainly why you are being stopped and whether you are free to go, note the officer's name, badge number and police station, and keep your hands visible while you speak."
+  - if: "you have just been arrested and your phone has been taken"
+    do: "Ask for the grounds of arrest in writing and an arrest memo signed by a witness, insist on one call to a family member, and tell them where to send a lawyer — you must be produced before a magistrate within 24 hours."
+  - if: "you are a woman and the arrest is happening after sunset"
+    do: "State on record that arrest after sunset and before sunrise needs a magistrate's prior permission in exceptional cases, ask that a woman officer conduct any search, and call 112 or a lawyer immediately if refused."
+  - if: "you were released and want to complain about how the stop was handled"
+    do: "Send a dated written complaint to the Station House Officer and then the Superintendent of Police with your contemporaneous notes attached, keep the acknowledgement, and escalate to the State Human Rights Commission if there is no reply in a month."
 sources:
   - label: "D.K. Basu v. State of West Bengal (1997) — Supreme Court"
     url: "https://main.sci.gov.in/"

@@ -13,6 +13,21 @@ pocket:
   - "Send a factual email asking for the amount, the credit date, and the reason for delay."
   - "Keep payslips, bank statements, attendance records, and every follow-up."
   - "The labour department is the usual escalation. Which statute applies depends on your role, wage, state, and establishment."
+case: >-
+  Imran in Old Delhi supervises an electronics store on ₹31,200 a month, and his September 2026 salary — due on the 7th under his appointment letter — never arrived.
+  His first move was a WhatsApp message to the store manager, which produced sympathy and nothing else.
+  His second, after finding this guide, was an email to HR, accounts, and the manager stating the exact amount, the contractual pay date, and a seven-day deadline, with his last three payslips and the bank statement attached.
+  HR replied that salaries were 'under process', so he kept coming to work — protecting himself from any abandonment claim — and filed a complaint at the labour commissioner's office, collecting an acknowledgement number.
+  The department's conciliation call to the company produced the full salary within a fortnight, and Imran kept the acknowledgement with his payslips in case the pattern repeated.
+situations:
+  - if: "the employer promises a date every week but nothing lands in the bank"
+    do: "Ask them to confirm the exact credit date in a reply email, with the amount and the month named — the labour department wants dates and amounts, not apologies."
+  - if: "you have resigned and the salary is being held until 'full and final'"
+    do: "Send a written demand that separates the two issues — salary for days worked is a wage claim, the FnF statement is a settlement — and name the date you will file with the labour department if it is not paid."
+  - if: "you are asked to sign a full and final settlement that forfeits the delayed salary"
+    do: "Do not sign it; return it marked that the settlement covers only the listed items and is without prejudice to the wage claim for unpaid salary, and keep your copy."
+  - if: "the employer says the company has no money this quarter"
+    do: "Keep working on record and file at the labour department anyway — a cash-flow story does not suspend wage law, and a dated complaint protects your claim if things get worse."
 sources:
   - label: "Payment of Wages Act, 1936 — India Code"
     url: "https://www.indiacode.nic.in/"

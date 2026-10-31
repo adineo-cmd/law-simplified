@@ -13,6 +13,17 @@ pocket:
   - "Check the Annual Information Statement (AIS) before responding; most notices are data mismatches."
   - "Responses go through the e-filing portal, in writing; phone assurances are not responses."
   - "Deadlines are 15 or 30 days in most cases; a missed scrutiny response can become a best-judgment assessment."
+case: >-
+  Manav in Ludhiana, a salaried engineer who traded equities on the side, found a 142(1) inquiry notice for AY 2023-24 in March 2025 — the department saw an ₹18.5 lakh transaction that looked like unexplained income and gave him a stated deadline. He ignored nothing: he downloaded the notice from the portal's e-proceedings tab, pulled his AIS and TIS, and confirmed the ₹18.5 lakh was mutual-fund redemption proceeds on which his actual long-term capital gain was ₹1.36 lakh, already offered in his return. He responded on the portal in writing — the computation sheet, the AIS extract, and the broker's consolidation statement — and collected the acknowledgement number the portal generated. The notice closed within six weeks with no demand. The exercise also fixed the habit that had let a 143(1) intimation with a ₹9,000 demand sit unread in the e-proceedings tab for a year, quietly accruing interest, which he paid and rectified that same week.
+situations:
+  - if: "you received a 139(9) defective-return notice with 15 days to respond"
+    do: "Log in to the e-filing portal today and file the corrected return or the explanation through the response link — silence voids the return as if it was never filed, and the 15 days run from service."
+  - if: "the notice flags a transaction in your AIS that your return does not explain"
+    do: "Download AIS and TIS first and name the genre of mismatch — FD interest, F&O turnover read as income, a redemption read as salary — then respond on the portal with the two documents that explain it; most notices die there."
+  - if: "you got a 148 notice saying income has escaped assessment for an old year"
+    do: "Take a CA into the room before the first response — the year has been reopened and the fight is about what can be reopened — and file the return for that year within the notice's window."
+  - if: "you have a 245 notice proposing to adjust your refund against an old demand"
+    do: "Object on the portal with reasons before the set-off if the demand is wrong or already paid — this is the notice people lose refunds to by never opening the e-proceedings tab."
 sources:
   - label: "Income Tax Department — e-filing portal"
     url: "https://www.incometax.gov.in/"

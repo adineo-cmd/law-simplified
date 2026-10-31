@@ -13,6 +13,21 @@ pocket:
   - "A refund should go back to the original payment source; a 'wallet credit' is not your default remedy."
   - "For card and UPI payments, a chargeback through your bank runs in parallel and is often faster."
   - "Screenshot the listing page before you return the item — policies change quietly."
+case: >-
+  Karthik in Chennai ordered a ₹14,499 microwave on a marketplace in August 2026, and the unit arrived with a cracked door — he photographed it before the pickup agent came and screenshot the listing's return promise the same hour.
+  The app's return flow promised a replacement that sat unshipped for three weeks while the platform kept offering ₹500 in wallet credit; he refused it in the comments box and in an email.
+  He then wrote to the platform's published grievance officer with the order number, the dates, and a specific ask — refund of ₹14,499 to source by 20 September — which started the 48-hour acknowledgement clock the e-commerce rules impose.
+  In parallel, not after, he raised a chargeback with his credit-card bank for non-delivery of the promised replacement, well inside the roughly 120-day window.
+  The chargeback hit his card first; the platform's own refund landed two weeks later, and he kept both records in case of a clawback.
+situations:
+  - if: "the platform offers wallet credit instead of money back"
+    do: "Refuse it in writing and ask for a refund to the original payment source — wallet credit is the platform's convenience, not your default remedy."
+  - if: "the return window is closing while the refund argument continues"
+    do: "Raise the return inside the app today with the reason code that matches reality — a late return converts a clean claim into an avoidable argument."
+  - if: "the seller wants the item shipped back before you have photographed it"
+    do: "Photograph and video the item and packing first, keep the courier receipt, and note the pickup date — 'item not as returned' is the seller's easiest defence."
+  - if: "you paid by UPI and the platform stalls past its grievance clock"
+    do: "Raise the dispute in the UPI app and email your bank's nodal officer with the transaction ID — and if a prepaid order never arrived at all, the bank chargeback is usually the cleanest lane."
 sources:
   - label: "Consumer Protection (E-Commerce) Rules, 2020"
     url: "https://consumeraffairs.nic.in/"

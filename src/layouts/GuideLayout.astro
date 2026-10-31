@@ -93,6 +93,30 @@ const articleJsonLd = {
           <p>{guide.data.shortVersion}</p>
         </aside>
 
+        {
+          guide.data.case && (
+            <aside class="case-box">
+              <span class="case-box__label">A real case</span>
+              <p>{guide.data.case}</p>
+            </aside>
+          )
+        }
+
+        {
+          guide.data.situations.length > 0 && (
+            <aside class="if-box">
+              <span class="if-box__label">If this is you</span>
+              <ul role="list">
+                {guide.data.situations.map((situation) => (
+                  <li>
+                    <strong>If {situation.if}:</strong> {situation.do}
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          )
+        }
+
         <div class="prose">
           <Content components={{ Callout }} />
         </div>
@@ -724,6 +748,65 @@ const articleJsonLd = {
       grid-template-columns: minmax(0, 1fr) 19rem;
       gap: 5.5rem;
     }
+  }
+
+  .case-box,
+  .if-box {
+    margin-block: 1.6rem;
+    padding: 1.2rem 1.4rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-bright);
+  }
+
+  .case-box {
+    border-left: 4px solid var(--topic);
+  }
+
+  .if-box {
+    border-left: 4px solid var(--ink);
+  }
+
+  .case-box__label,
+  .if-box__label {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--topic);
+    margin-bottom: 0.5rem;
+  }
+
+  .if-box__label {
+    color: var(--ink);
+  }
+
+  .case-box p {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 46rem;
+  }
+
+  .if-box ul {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .if-box li {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    padding-left: 1rem;
+    border-left: 2px solid var(--line);
+  }
+
+  .if-box li strong {
+    color: var(--ink);
+    font-weight: 650;
   }
 </style>
 

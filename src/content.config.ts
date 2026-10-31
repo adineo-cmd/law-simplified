@@ -15,6 +15,15 @@ const guides = defineCollection({
     order: z.number().default(99),
     tags: z.array(z.string()).default([]),
     pocket: z.array(z.string()).default([]),
+    case: z.string().default(''),
+    situations: z
+      .array(
+        z.object({
+          if: z.string(),
+          do: z.string(),
+        }),
+      )
+      .default([]),
     sources: z
       .array(
         z.object({

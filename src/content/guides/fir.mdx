@@ -13,6 +13,21 @@ pocket:
   - "Give a written complaint, read the FIR before signing, and ask for a free copy."
   - "If the station refuses, ask for the refusal in writing and escalate to the Superintendent of Police."
   - "You can approach the Magistrate under the BNSS, 2023 if the police still do not register the FIR."
+case: >-
+  Lakshmi in Madurai returned from a temple visit in February 2026 to find her back door forced and about ₹1.1 lakh of gold missing.
+  At the police station, the desk officer told her to come back with the inspector, then suggested she simply claim insurance — a refusal with no reason given.
+  She noted the officer's name and the time, went home, and sent a written complaint by registered post to the Superintendent of Police with her account in date order, photographs of the broken latch, and the refusal details.
+  The SP's office marked the complaint to the station, an investigating officer called her within four days, and this time she gave her written complaint, read every line before signing, had one timing corrected and initialled, and took the free copy with the FIR number.
+  The chain was never recovered, but the FIR number is what her insurer and the investigation both needed.
+situations:
+  - if: "the station says the incident happened outside their area"
+    do: "Ask them to register a Zero FIR and give you its number — jurisdiction is a transfer problem for the police, not a second trip for you."
+  - if: "the desk refuses to register an FIR and will not say why"
+    do: "Note the officer's name, badge number, date, and time, ask for the refusal in writing, and send your complaint by registered post or email to the Superintendent of Police the same week."
+  - if: "the police want you to sign a statement you have not read"
+    do: "Read every line, have corrections made and initialled, and never sign a blank page — after you sign, you are entitled to a free copy, and you should take it."
+  - if: "weeks pass after your written complaint to the SP"
+    do: "File a complaint before the Magistrate under the BNSS, 2023 — a legal aid lawyer from your DLSA can draft it — attaching the refusal record, the SP complaint, and its postal proof."
 sources:
   - label: "Bharatiya Nagarik Suraksha Sanhita, 2023 — India Code"
     url: "https://www.indiacode.nic.in/"

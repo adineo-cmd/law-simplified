@@ -13,6 +13,17 @@ pocket:
   - "Demand notice within 30 days of receiving the bank's 'insufficient funds' memo."
   - "The drawer has 15 days from the notice to pay; the complaint is filed within one month after that."
   - "The demand notice must state the amount and a direction to pay — this is the case's foundation."
+case: >-
+  Devendra, a textile trader in Surat, received a ₹6.8 lakh cheque from a Ghaziabad buyer against purchase invoices and presented it within the week; the bank returned it on 9 January 2025 with an 'insufficient funds' memo. Day zero was the memo date, and his clock math ran from there: an advocate's demand notice went out by registered post with acknowledgment due on 20 January, well inside the 30-day window, identifying the cheque, the invoices behind it, and a demand for the full ₹6.8 lakh within 15 days of receipt. The buyer paid nothing by the 15th day, so the offence was complete, and the sworn complaint was filed before the Surat magistrate — where Devendra's bank branch sat, so no chase to Uttar Pradesh — within one month of the window's expiry. The buyer appeared once process issued, and at the magistrate's door the case compounded: ₹6.8 lakh principal plus ₹41,000 as interest and costs, paid before the next hearing. The memo, the postal receipts and the invoices were the whole case; Devendra's only real job had been the calendar.
+situations:
+  - if: "the bank returned the cheque this week with an insufficient-funds memo"
+    do: "Note the memo date — that is day zero — keep the original cheque and memo together, and send the demand notice within 30 days by registered post with acknowledgment due, identifying the cheque, the debt, and payment within 15 days of receipt."
+  - if: "the cheque bounced for 'signature differs' or another technical reason"
+    do: "Get the error corrected and re-present the cheque within its validity — a wrongful dishonour restarts the process, and the fresh memo restarts your 30-day notice clock cleanly."
+  - if: "the 15-day window has passed and the drawer is asking for two more months"
+    do: "Put any grace period in writing with your right reserved to proceed, and calendar the complaint deadline — one month after the window expires — because negotiating past it without paper can talk you out of the case."
+  - if: "you missed the 30-day notice deadline or the one-month complaint window"
+    do: "See a lawyer immediately about condonation of delay on sufficient cause, and about the parallel civil recovery suit — its three-year limitation runs separately and may still recover the money."
 sources:
   - label: "Negotiable Instruments Act, 1881 — Section 138, India Code"
     url: "https://www.indiacode.nic.in/"

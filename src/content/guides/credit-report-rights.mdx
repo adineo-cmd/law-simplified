@@ -13,6 +13,17 @@ pocket:
   - "Dispute with the bureau online; it routes to the lender, whose response drives the fix."
   - "Fix the source: a 'settled' or 'written-off' tag changes only when the lender updates it."
   - "A fraud account in your name is a police complaint plus bureau dispute, not just a dispute."
+case: >-
+  Deepa in Hyderabad had her ₹41 lakh home-loan application rejected in June 2025 because a credit card she had fully closed in 2021 — closure letter and NOC in a folder — still showed 'written-off', and a stranger's two-wheeler EMI sat on her file through a wrong phone number. She pulled her free report from all four bureaus, found the stale tag on two of them, and filed online disputes with each bureau, flagging the exact account and field and attaching the closure letter, the NOC, and the statement showing zero. The bureaus routed each dispute to the reporting lender within days; one corrected its feed in three weeks, but the card issuer replied that 'the entry stands'. She escalated to the issuer's grievance cell with the NOC attached, and after another month of silence filed at cms.rbi.org.in, citing the dispute IDs and the branch's replies. The ombudsman's direction in October forced the feed correction, the re-pulled report read 'closed', and the same bank sanctioned the loan at the next attempt.
+situations:
+  - if: "you closed a loan years ago and the report still shows it open or written-off"
+    do: "Pull the free report from each of the four bureaus, file an online dispute on every affected one attaching the closure letter and NOC, and re-pull after 30 days — the bureau routes it to the lender whose feed is wrong."
+  - if: "the bureau replies that the lender confirms the entry"
+    do: "Move the dispute to the lender's grievance cell with your proof attached, and if the reply is absent or unsatisfactory after 30 days, file at cms.rbi.org.in with the dispute IDs — ombudsman directions forcing feed corrections are routine."
+  - if: "there is a loan or card in your name that you never opened"
+    do: "Treat it as fraud, not a data error: file a complaint on cybercrime.gov.in or at the police station, dispute with the bureau attaching the acknowledgement, and write to the lender demanding the account's KYC documents."
+  - if: "your loan application was rejected for a score you did not expect"
+    do: "Read the report like a lender — DPD columns, enquiries, status tags — list every wrong field with its proof, and run the disputes before reapplying, because a burst of fresh applications only deepens the enquiry trail."
 sources:
   - label: "TransUnion CIBIL — dispute resolution"
     url: "https://www.cibil.com/"
