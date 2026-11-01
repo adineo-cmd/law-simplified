@@ -513,7 +513,7 @@ const steps = [
     border: 1px solid var(--line);
     background:
       linear-gradient(var(--paper-bright), var(--paper-bright)) padding-box,
-      repeating-linear-gradient(0deg, transparent 0 27px, rgba(18, 17, 15, 0.045) 27px 28px);
+      repeating-linear-gradient(0deg, transparent 0 27px, rgba(var(--ink-rgb), 0.045) 27px 28px);
   }
 
   .template__subject {
@@ -608,12 +608,12 @@ const steps = [
 
   .toolkit-close {
     padding-block: clamp(3rem, 6vw, 5rem);
-    background: var(--ink);
-    color: var(--paper-bright);
+    background: var(--band);
+    color: var(--band-ink);
   }
 
   .eyebrow--light {
-    color: rgba(255, 253, 245, 0.55);
+    color: rgba(var(--onband-rgb), 0.55);
   }
 
   .eyebrow--light::before {
@@ -637,7 +637,7 @@ const steps = [
     margin-top: 1rem;
     font-size: 0.95rem;
     line-height: 1.6;
-    color: rgba(255, 253, 245, 0.68);
+    color: rgba(var(--onband-rgb), 0.68);
   }
 
   .copy-feedback {

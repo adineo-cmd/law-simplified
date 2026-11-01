@@ -121,7 +121,7 @@ const examples = [
     width: 5.2rem;
     height: 1.15rem;
     background: rgba(245, 239, 217, 0.55);
-    border: 1px solid rgba(18, 17, 15, 0.12);
+    border: 1px solid rgba(var(--ink-rgb), 0.12);
     transform: rotate(-3deg);
     backdrop-filter: blur(1px);
   }
@@ -294,9 +294,9 @@ const examples = [
   }
 
   .legal-switch__tab.is-active {
-    background: var(--ink);
+    background: var(--band);
     border-color: var(--ink);
-    color: var(--paper-bright);
+    color: var(--band-ink);
   }
 
   .legal-switch__tab-num {

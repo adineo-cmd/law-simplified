@@ -397,7 +397,7 @@ const faq = topicFaqList(topic.id);
   .topic-guide:hover .topic-guide__arrow {
     background: var(--topic);
     border-color: var(--topic);
-    color: var(--paper-bright);
+    color: var(--band-ink);
     transform: translateX(3px);
   }
 
@@ -502,7 +502,7 @@ const faq = topicFaqList(topic.id);
     height: 1.8rem;
     border-radius: 50%;
     background: var(--red);
-    color: var(--paper-bright);
+    color: var(--band-ink);
     font-family: var(--font-display);
     font-weight: 700;
   }
@@ -531,12 +531,12 @@ const faq = topicFaqList(topic.id);
 
   .related {
     padding-block: clamp(3rem, 6vw, 5rem);
-    background: var(--ink);
-    color: var(--paper-bright);
+    background: var(--band);
+    color: var(--band-ink);
   }
 
   .eyebrow--light {
-    color: rgba(255, 253, 245, 0.55);
+    color: rgba(var(--onband-rgb), 0.55);
   }
 
   .eyebrow--light::before {

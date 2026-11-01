@@ -63,7 +63,7 @@ const { topic, count, index } = Astro.props;
 
   .topic-row:hover,
   .topic-row:focus-visible {
-    color: var(--paper-bright);
+    color: var(--band-ink);
     padding-left: 1.1rem;
   }
 
@@ -138,12 +138,12 @@ const { topic, count, index } = Astro.props;
   .topic-row:hover .topic-row__num,
   .topic-row:hover .topic-row__short,
   .topic-row:hover .topic-row__count {
-    color: rgba(255, 253, 245, 0.78);
+    color: rgba(var(--onband-rgb), 0.78);
   }
 
   .topic-row:hover .topic-row__icon {
-    color: var(--paper-bright);
-    border-color: rgba(255, 253, 245, 0.55);
+    color: var(--band-ink);
+    border-color: rgba(var(--onband-rgb), 0.55);
   }
 
   .topic-row:hover .topic-row__arrow {

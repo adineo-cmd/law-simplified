@@ -50,13 +50,13 @@ import Icon from './Icon.astro';
     background: var(--paper);
     border: 1.5px solid var(--ink);
     border-radius: var(--radius);
-    box-shadow: 10px 10px 0 rgba(18, 17, 15, 0.9);
+    box-shadow: 10px 10px 0 rgba(var(--ink-rgb), 0.9);
     color: var(--ink);
     overflow: hidden;
   }
 
   .search-dialog::backdrop {
-    background: rgba(18, 17, 15, 0.55);
+    background: rgba(var(--ink-rgb), 0.55);
     backdrop-filter: blur(5px);
   }
 

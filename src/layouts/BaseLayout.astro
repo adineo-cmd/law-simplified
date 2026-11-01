@@ -41,8 +41,8 @@ const jsonLd = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#f5efd9" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" id="meta-theme" content="#f5efd9" />
+    <meta name="color-scheme" content="light dark" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content={ogType} />
@@ -55,6 +55,13 @@ const jsonLd = {
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
 
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem('law-theme');
+        const theme = stored || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
     <link rel="icon" href="/law-simplified/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/law-simplified/favicon.svg" />
     <link rel="sitemap" href="/law-simplified/sitemap-index.xml" />
@@ -99,5 +106,25 @@ const jsonLd = {
     </main>
     <Footer />
     <SearchDialog />
-  </body>
+  <script is:inline>
+    (() => {
+      const meta = document.getElementById('meta-theme');
+      const sync = () => {
+        const dark = document.documentElement.dataset.theme === 'dark';
+        meta && meta.setAttribute('content', dark ? '#14130e' : '#f5efd9');
+        document.querySelectorAll('[data-theme-toggle] .ico-sun').forEach((el) => (el.style.display = dark ? 'block' : 'none'));
+        document.querySelectorAll('[data-theme-toggle] .ico-moon').forEach((el) => (el.style.display = dark ? 'none' : 'block'));
+      };
+      sync();
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-theme-toggle]');
+        if (!btn) return;
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('law-theme', next);
+        sync();
+      });
+    })();
+  </script>
+</body>
 </html>

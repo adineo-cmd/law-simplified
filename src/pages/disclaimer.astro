@@ -273,19 +273,19 @@ import { site } from '../data/site';
 
   .aside-card--help {
     border-top-color: var(--blue);
-    background: var(--ink);
-    color: var(--paper-bright);
+    background: var(--band);
+    color: var(--band-ink);
   }
 
   .aside-card--help h2 {
-    color: rgba(255, 253, 245, 0.55);
+    color: rgba(var(--onband-rgb), 0.55);
   }
 
   .aside-card--help p {
     margin-top: 0.7rem;
     font-size: 0.82rem;
     line-height: 1.55;
-    color: rgba(255, 253, 245, 0.7);
+    color: rgba(var(--onband-rgb), 0.7);
   }
 
   .aside-card__phone {
@@ -297,14 +297,14 @@ import { site } from '../data/site';
     font-size: 1.7rem;
     font-weight: 700;
     letter-spacing: -0.03em;
-    color: var(--paper-bright);
+    color: var(--band-ink);
     text-decoration: none;
   }
 
   .aside-card--help .arrow-link {
     margin-top: 0.9rem;
-    color: var(--paper-bright);
-    border-color: rgba(255, 253, 245, 0.4);
+    color: var(--band-ink);
+    border-color: rgba(var(--onband-rgb), 0.4);
     font-size: 0.7rem;
   }
 

@@ -291,8 +291,8 @@ const guidesFor = (id: string) => byOrder.filter((guide) => guide.data.topic ===
 
   .topics-foot {
     padding-block: clamp(3rem, 6vw, 5rem);
-    background: var(--ink);
-    color: var(--paper-bright);
+    background: var(--band);
+    color: var(--band-ink);
   }
 
   .topics-foot__inner {
@@ -302,7 +302,7 @@ const guidesFor = (id: string) => byOrder.filter((guide) => guide.data.topic ===
   }
 
   .eyebrow--light {
-    color: rgba(255, 253, 245, 0.6);
+    color: rgba(var(--onband-rgb), 0.6);
   }
 
   .eyebrow--light::before {
@@ -316,7 +316,7 @@ const guidesFor = (id: string) => byOrder.filter((guide) => guide.data.topic ===
   }
 
   .topics-foot h2 .italic {
-    color: rgba(255, 253, 245, 0.62);
+    color: rgba(var(--onband-rgb), 0.62);
   }
 
   .topics-foot__actions {
@@ -330,14 +330,14 @@ const guidesFor = (id: string) => byOrder.filter((guide) => guide.data.topic ===
     font-family: var(--font-ui);
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--paper-bright);
+    color: var(--band-ink);
     text-decoration: none;
-    border-bottom: 1px solid rgba(255, 253, 245, 0.4);
+    border-bottom: 1px solid rgba(var(--onband-rgb), 0.4);
     padding-bottom: 0.2rem;
   }
 
   .topics-foot__phone:hover {
-    border-color: var(--paper-bright);
+    border-color: var(--band-ink);
   }
 
   @media (min-width: 700px) {

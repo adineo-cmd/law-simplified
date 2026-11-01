@@ -274,7 +274,7 @@ p {
   left: 0.75rem;
   z-index: 200;
   padding: 0.7rem 1rem;
-  background: var(--ink);
+  background: var(--band);
   color: var(--paper-bright);
   font-family: var(--font-ui);
   font-size: 0.8rem;
@@ -402,7 +402,7 @@ p {
 }
 
 .tag--solid {
-  background: var(--ink);
+  background: var(--band);
   color: var(--paper-bright);
   border-color: var(--ink);
 }
@@ -650,7 +650,7 @@ p {
 --------------------------------------------------------------- */
 
 .bleed-ink {
-  background: var(--ink);
+  background: var(--band);
   color: var(--paper-bright);
 }
 
@@ -710,4 +710,20 @@ p {
 
 .reveal {
   animation: fade-up 0.7s var(--ease) both;
+}
+
+/* ---- dark-mode wash corrections ---- */
+[data-theme='dark'] .topic-head {
+  background: linear-gradient(
+    115deg,
+    color-mix(in srgb, var(--wash) 22%, var(--paper)) 0%,
+    color-mix(in srgb, var(--wash) 10%, var(--paper)) 52%,
+    var(--paper) 100%
+  );
+}
+
+[data-theme='dark'] .related-card:hover {
+  background: color-mix(in srgb, var(--wash) 30%, var(--paper));
+  border-color: color-mix(in srgb, var(--wash) 30%, var(--paper));
+  color: var(--ink);
 }

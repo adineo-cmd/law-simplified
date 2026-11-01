@@ -19,6 +19,10 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
         <a href="tel:15100" class="utility__phone">15100</a>
         <span class="utility__sep" aria-hidden="true">/</span>
         <span class="utility__muted">Updated {site.lastReviewed}</span>
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
+          <svg class="ico-moon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+          <svg class="ico-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+        </button>
       </span>
     </div>
   </div>
@@ -94,8 +98,8 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
   }
 
   .utility {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--band);
+    color: var(--band-ink);
     font-family: var(--font-ui);
     font-size: 0.63rem;
     font-weight: 500;
@@ -136,17 +140,38 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
   }
 
   .utility__phone {
-    color: var(--paper-bright);
+    color: var(--band-ink);
     font-weight: 700;
     text-decoration: none;
     border-bottom: 1px solid rgba(245, 239, 217, 0.4);
   }
 
   .utility__phone:hover {
-    border-color: var(--paper-bright);
+    border-color: var(--band-ink);
   }
 
   .utility__sep,
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 1.55rem;
+    height: 1.55rem;
+    margin-left: 0.5rem;
+    color: inherit;
+    background: transparent;
+    border: 1px solid currentColor;
+    cursor: pointer;
+    vertical-align: middle;
+    padding: 0;
+  }
+  .theme-toggle:hover {
+    color: var(--band-ink);
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+  .theme-toggle .ico-sun {
+    display: none;
+  }
   .utility__muted {
     color: rgba(245, 239, 217, 0.45);
   }

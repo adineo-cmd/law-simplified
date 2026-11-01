@@ -411,9 +411,9 @@ const stats = [
   }
 
   .hero__chip:hover {
-    background: var(--ink);
+    background: var(--band);
     border-color: var(--ink);
-    color: var(--paper-bright);
+    color: var(--band-ink);
   }
 
   .hero__card {
@@ -470,8 +470,8 @@ const stats = [
   .marquee {
     overflow: hidden;
     padding-block: 0.7rem;
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--band);
+    color: var(--band-ink);
     border-bottom: 1.5px solid var(--ink);
   }
 
@@ -586,14 +586,14 @@ const stats = [
     overflow: hidden;
     padding-block: clamp(3.5rem, 8vw, 7rem);
     background: var(--blue);
-    color: var(--paper-bright);
+    color: var(--band-ink);
   }
 
   .toolkit-section::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(rgba(255, 253, 245, 0.13) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(var(--onband-rgb), 0.13) 1px, transparent 1px);
     background-size: 22px 22px;
     opacity: 0.45;
     pointer-events: none;
@@ -608,7 +608,7 @@ const stats = [
   }
 
   .eyebrow--light {
-    color: rgba(255, 253, 245, 0.66);
+    color: rgba(var(--onband-rgb), 0.66);
   }
 
   .eyebrow--light::before {
@@ -627,7 +627,7 @@ const stats = [
     margin-top: 1.4rem;
     font-size: 1.02rem;
     line-height: 1.62;
-    color: rgba(255, 253, 245, 0.78);
+    color: rgba(var(--onband-rgb), 0.78);
   }
 
   .toolkit .btn {
@@ -639,7 +639,7 @@ const stats = [
     font-family: var(--font-ui);
     font-size: 0.68rem;
     letter-spacing: 0.03em;
-    color: rgba(255, 253, 245, 0.55);
+    color: rgba(var(--onband-rgb), 0.55);
   }
 
   .toolkit__index {
@@ -662,8 +662,8 @@ const stats = [
     gap: 1rem;
     padding: 0.8rem 1.1rem;
     border-bottom: 1.5px solid var(--ink);
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--band);
+    color: var(--band-ink);
     font-family: var(--font-ui);
     font-size: 0.6rem;
     font-weight: 650;
@@ -880,7 +880,7 @@ const stats = [
     overflow: hidden;
     padding-block: clamp(3.5rem, 8vw, 7rem);
     background: var(--red);
-    color: var(--paper-bright);
+    color: var(--band-ink);
     border-top: 1.5px solid var(--ink);
   }
 
@@ -890,7 +890,7 @@ const stats = [
   }
 
   .closing .eyebrow--light {
-    color: rgba(255, 253, 245, 0.72);
+    color: rgba(var(--onband-rgb), 0.72);
   }
 
   .closing .eyebrow--light::before {
@@ -910,7 +910,7 @@ const stats = [
     margin-top: 1.4rem;
     font-size: clamp(1rem, 0.96rem + 0.3vw, 1.18rem);
     line-height: 1.55;
-    color: rgba(255, 253, 245, 0.82);
+    color: rgba(var(--onband-rgb), 0.82);
   }
 
   .closing__actions {
@@ -928,14 +928,14 @@ const stats = [
     font-family: var(--font-ui);
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--paper-bright);
+    color: var(--band-ink);
     text-decoration: none;
-    border-bottom: 1px solid rgba(255, 253, 245, 0.5);
+    border-bottom: 1px solid rgba(var(--onband-rgb), 0.5);
     padding-bottom: 0.2rem;
   }
 
   .closing__phone:hover {
-    border-color: var(--paper-bright);
+    border-color: var(--band-ink);
   }
 
   .closing__mark {
@@ -945,7 +945,7 @@ const stats = [
     font-family: var(--font-body);
     font-size: clamp(14rem, 30vw, 28rem);
     line-height: 1;
-    color: rgba(255, 253, 245, 0.09);
+    color: rgba(var(--onband-rgb), 0.09);
     pointer-events: none;
     user-select: none;
   }

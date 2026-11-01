@@ -462,12 +462,12 @@ const notFor = [
 
   .about-close {
     padding-block: clamp(3rem, 6vw, 5rem);
-    background: var(--ink);
-    color: var(--paper-bright);
+    background: var(--band);
+    color: var(--band-ink);
   }
 
   .eyebrow--light {
-    color: rgba(255, 253, 245, 0.55);
+    color: rgba(var(--onband-rgb), 0.55);
   }
 
   .eyebrow--light::before {
@@ -491,12 +491,12 @@ const notFor = [
     margin-top: 1rem;
     font-size: 0.95rem;
     line-height: 1.65;
-    color: rgba(255, 253, 245, 0.68);
+    color: rgba(var(--onband-rgb), 0.68);
   }
 
   .about-close a:not(.btn) {
-    color: var(--paper-bright);
-    text-decoration-color: rgba(255, 253, 245, 0.4);
+    color: var(--band-ink);
+    text-decoration-color: rgba(var(--onband-rgb), 0.4);
   }
 
   @media (min-width: 700px) {
